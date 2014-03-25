@@ -142,7 +142,7 @@ public class AroundDetailActivity extends Activity {
 			}
 		});
 
-		mItemCursor = mQuery.queryAroundByType("1");
+		setmItemCursor(mQuery.queryAroundByType("1"));
 	}
 
 	private ArrayList<QueryListItem> json2ArrayList(JsonParser jsonParser) {
@@ -221,6 +221,14 @@ public class AroundDetailActivity extends Activity {
 		};
 		Collections.sort(list, itemComparator);
 		return list;
+	}
+
+	public Cursor getmItemCursor() {
+		return mItemCursor;
+	}
+
+	public void setmItemCursor(Cursor mItemCursor) {
+		this.mItemCursor = mItemCursor;
 	}
 
 	private class QueryAround extends

@@ -19,7 +19,6 @@ import com.esri.android.map.CalloutStyle;
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.MapView;
 import com.esri.android.map.ags.ArcGISLocalTiledLayer;
-import com.esri.android.map.ags.ArcGISTiledMapServiceLayer;
 import com.esri.android.map.event.OnSingleTapListener;
 import com.esri.android.map.event.OnZoomListener;
 import com.esri.core.geometry.Envelope;
@@ -34,7 +33,6 @@ public class MapActivity extends Activity {
 	private Bundle mBundle;
 	private GraphicsLayer mGraphicsLayer;
 	private ArcGISLocalTiledLayer mLocalTiledLayer;
-	private ArcGISTiledMapServiceLayer mTiledMapServiceLayer;
 	private String mFunction = "POIS";
 	private int mType = 0;
 
@@ -293,17 +291,13 @@ public class MapActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			mTiledMapServiceLayer = new ArcGISTiledMapServiceLayer(
-					getString(R.string.map_url));
-			// mLocalTiledLayer = new ArcGISLocalTiledLayer(
-			// "file:///mnt/sdcard/mnt/sdcard/daqingcache/Layers");
+			mMap.setMapBackground(0xffffffff, Color.WHITE, 0, 0);
 			mLocalTiledLayer = new ArcGISLocalTiledLayer(
 					getString(R.string.map_address));
 			mMap.setExtent(new Envelope(13570407.0434979, 5681967.05272005,
 					14203165.9874021, 6017039.55107995), 0);
-			mMap.setScale(2311162.217155);
-			mMap.setMaxResolution(611.49622628138);
-			mMap.setMinResolution(9.55462853563415);
+			mMap.setMinScale(4622324.434309);
+			mMap.setMaxScale(72223.819286);
 			mMap.setOnZoomListener(new OnZoomListener() {
 
 				/**
@@ -328,7 +322,6 @@ public class MapActivity extends Activity {
 					}
 				}
 			});
-			mMap.addLayer(mTiledMapServiceLayer);
 			mMap.addLayer(mLocalTiledLayer);
 			mGraphicsLayer = addGraphicToLayer(mFunction, mType);
 			mMap.addLayer(mGraphicsLayer);

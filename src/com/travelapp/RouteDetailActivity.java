@@ -251,8 +251,8 @@ public class RouteDetailActivity extends Activity {
 			mLocalTiledLayer = new ArcGISLocalTiledLayer(
 					getString(R.string.map_address));
 			mMap.setExtent(mGeometry);
-			mMap.setMaxResolution(611.49622628138);
-			mMap.setMinResolution(9.55462853563415);
+			mMap.setMinScale(4622324.434309);
+			mMap.setMaxScale(72223.819286);
 			mMap.setMapBackground(0xffffffff, Color.WHITE, 0, 0);
 			mMap.addLayer(mLocalTiledLayer);
 			mMap.addLayer(mRouteGraphicsLayer);

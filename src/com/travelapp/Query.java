@@ -198,7 +198,7 @@ public class Query {
 				Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
 				Point mNewPoint = new Point(mPoint.getX(),
 						mPoint.getY() - 0.001);
-				Graphic mGraphic = new Graphic(mPoint, mPictureMarkerSymbol,
+				Graphic mGraphic = new Graphic(mNewPoint, mPictureMarkerSymbol,
 						mMap, 0);
 				mGraphicsLayer.addGraphic(mGraphic);
 			}
@@ -235,7 +235,7 @@ public class Query {
 				Point mPoint = (Point) Query.wkt2Geometry(WKT);
 				Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
 				Point mNewPoint = new Point(mPoint.getX(), mPoint.getY() + 200);
-				mGraphic = new Graphic(mPoint, mPictureMarkerSymbol, mMap, 0);
+				mGraphic = new Graphic(mNewPoint, mPictureMarkerSymbol, mMap, 0);
 			}
 		} catch (Exception e) {
 			Log.e("Query", e.toString());

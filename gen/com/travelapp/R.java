@@ -210,6 +210,7 @@ public final class R {
         public static final int app_name=0x7f070000;
         public static final int app_ok=0x7f07000a;
         public static final int baiduak=0x7f070014;
+        public static final int esri_client_id=0x7f07001b;
         public static final int fun=0x7f07000f;
         public static final int hello_world=0x7f070002;
         public static final int hotel=0x7f07000d;

@@ -12,6 +12,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.esri.android.runtime.ArcGISRuntime;
 import com.esri.core.geometry.Point;
 import com.sina.weibo.sdk.auth.WeiboAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -80,6 +81,7 @@ public class TravelApplication extends Application {
 		initBDLocation();
 		initWX();
 		initWB();
+		initEsriSDK();
 	}
 
 	/**
@@ -248,5 +250,10 @@ public class TravelApplication extends Application {
 		mWeiboAuth = new WeiboAuth(getApplicationContext(),
 				getApplicationContext().getString(R.string.wb_app_id),
 				getApplicationContext().getString(R.string.redirect_url), null);
+	}
+	
+	private void initEsriSDK(){
+		String myClientID = this.getString(R.string.esri_client_id);
+		ArcGISRuntime.setClientId(myClientID); 
 	}
 }
