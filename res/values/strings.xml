@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Travel_App</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="txtHomeTitle">旅游指南</string>
+    <string name="txtHomePlace">大庆</string>
+    <string name="map_url">http://cache1.arcgisonline.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer</string>
+    <string name="map_address">file:///storage/sdcard0/daqingcache/Layers</string>
+    <string name="wx_app_id">wx4fe092cad7a35fc2</string>
+    <string name="wb_app_id">1005786323</string>
+    <string name="redirect_url">http://weibo.com/saleemshenlin</string>
+    <string name="app_ok">确定</string>
+    <string name="app_cancel">取消</string>
+    <string name="scenic">景点</string>
+    <string name="hotel">住宿</string>
+    <string name="rest">餐饮</string>
+    <string name="fun">购物</string>
+    <string name="share_wx">分享至微信朋友圈</string>
+    <string name="share_wb">分享至新浪微博</string>
+    <string name="share">分享</string>
+    <string name="share_text">这一刻的想法</string>
+    <string name="baiduak">zWrPZFR0zkPG328TsHvHlWBB</string>
+    <string name="weibosdk_demo_toast_auth_success">授权成功</string>
+    <string name="weibosdk_demo_toast_auth_failed">授权失败</string>
+    <string name="weibosdk_demo_toast_auth_canceled">取消授权</string>
+    <string name="weibosdk_demo_toast_share_success">分享成功</string>
+    <string name="weibosdk_demo_toast_share_failed">分享失败</string>
+    <string name="weibosdk_demo_toast_share_canceled">取消分享</string>
+
+</resources>

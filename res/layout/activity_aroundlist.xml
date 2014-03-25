@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="ContentDescription" >
+
+    <LinearLayout
+        android:id="@+id/linActionbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#33B5E5" >
+
+        <ImageView
+            android:id="@+id/imgListBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/txtListTitle"
+            android:layout_width="0dip"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/txtHomePlace"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgListMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:padding="8dp"
+            android:src="@drawable/bg_noimg" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linScenicAround"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_1" />
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="@string/scenic"
+            android:textColor="#636363"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:padding="8dp"
+            android:src="@drawable/ic_more_dark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linHotelAround"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_2" />
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="@string/hotel"
+            android:textColor="#636363"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:padding="8dp"
+            android:src="@drawable/ic_more_dark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linRestAround"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_3" />
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="@string/rest"
+            android:textColor="#636363"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:padding="8dp"
+            android:src="@drawable/ic_more_dark" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linFunAround"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" >
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_4" />
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="32dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:gravity="left|center_vertical"
+            android:text="@string/fun"
+            android:textColor="#636363"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="right"
+            android:padding="8dp"
+            android:src="@drawable/ic_more_dark" />
+    </LinearLayout>
+
+</LinearLayout>
