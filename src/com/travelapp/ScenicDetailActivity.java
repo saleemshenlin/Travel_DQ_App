@@ -26,7 +26,7 @@ public class ScenicDetailActivity extends Activity {
 	private Query mQuery;
 	private Intent mIntent;
 	private Bundle mBundle;
-	private String mPoiId;
+	private int mPoiId;
 	private String mFrom;
 	private Resources mResources;
 
@@ -37,7 +37,7 @@ public class ScenicDetailActivity extends Activity {
 		setContentView(R.layout.activity_detail);
 		mIntent = getIntent();
 		mBundle = mIntent.getExtras();
-		mPoiId = String.valueOf(mBundle.getLong("ID"));
+		mPoiId = (int) mBundle.getLong("ID");
 		mFrom = "Detail";
 		mResources = this.getResources();
 		initView();
@@ -74,7 +74,7 @@ public class ScenicDetailActivity extends Activity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra("FUNCTION", "POI");
-				intent.putExtra("TYPE", Integer.parseInt(mPoiId));
+				intent.putExtra("TYPE", mPoiId);
 				ScenicDetailActivity.this.startActivity(intent);
 				ScenicDetailActivity.this.finish();
 				ScenicDetailActivity.this.overridePendingTransition(
@@ -165,7 +165,7 @@ public class ScenicDetailActivity extends Activity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra("FUNCTION", "POI");
-				intent.putExtra("TYPE", Integer.parseInt(mPoiId));
+				intent.putExtra("TYPE", mPoiId);
 				ScenicDetailActivity.this.startActivity(intent);
 				ScenicDetailActivity.this.finish();
 				ScenicDetailActivity.this.overridePendingTransition(
@@ -182,44 +182,29 @@ public class ScenicDetailActivity extends Activity {
 		}
 	}
 
-	private void getPOI(String id) {
+	private void getPOI(int id) {
 		mQuery = new Query();
-		mItemCursor = mQuery.getPoiById(id);
+		POI mPoi = mQuery.getPoiFromAPI(id);
 		try {
-			if (mItemCursor.moveToFirst()) {
-				mTitleTextView.setText(mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_NAME)));
-				mItemPrice.setText("门票："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_PRICE)));
-				mItemTime.setText("时间："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_TIME)));
-				mItemAddress.setText("地址："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_ADDRESS)));
-				mItemTele.setText("电话："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_TELE)));
-				mItemAbstract.setText("简介："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_ABSTRACT)));
-				String name = "img_0" + id;
-
-				int imgId = mResources.getIdentifier(name, "drawable",
-						"com.travelapp");
-				Drawable mDrawable = mResources.getDrawable(imgId);
-				mItemImageView.setImageDrawable(mDrawable);
+			if (mPoi != null) {
+				mTitleTextView.setText(mPoi.Name);
+				mItemPrice.setText("门票：" + mPoi.Ticket);
+				mItemTime.setText("时间：" + mPoi.Time);
+				mItemAddress.setText("地址：" + mPoi.Address);
+				mItemTele.setText("电话：" + mPoi.Tele);
+				mItemAbstract.setText("简介：" + mPoi.Abstract);
+				if (mPoi.ImgUrl == null || mPoi.ImgUrl.equals("null")) {
+					int imgId = mResources.getIdentifier("img_missing",
+							"drawable", "com.travelapp");
+					Drawable mDrawable = mResources.getDrawable(imgId);
+					mItemImageView.setImageDrawable(mDrawable);
+				} else {
+					String imgUrl = mPoi.ImgUrl + "_mini.jpg";
+					mItemImageView.setImageBitmap(mQuery.returnBitMap(imgUrl));
+				}
 			}
 		} catch (Exception e) {
 			Log.e("ScenicDetail", e.toString());
-		} finally {
-			if (mItemCursor != null) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
 		}
-
 	}
-
 }

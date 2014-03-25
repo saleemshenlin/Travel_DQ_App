@@ -118,14 +118,15 @@ public final class R {
         public static final int img_0501=0x7f020056;
         public static final int img_0502=0x7f020057;
         public static final int img_0503=0x7f020058;
-        public static final int num_1=0x7f020059;
-        public static final int num_2=0x7f02005a;
-        public static final int num_3=0x7f02005b;
-        public static final int num_4=0x7f02005c;
-        public static final int num_5=0x7f02005d;
-        public static final int num_6=0x7f02005e;
-        public static final int num_7=0x7f02005f;
-        public static final int num_8=0x7f020060;
+        public static final int img_missing=0x7f020059;
+        public static final int num_1=0x7f02005a;
+        public static final int num_2=0x7f02005b;
+        public static final int num_3=0x7f02005c;
+        public static final int num_4=0x7f02005d;
+        public static final int num_5=0x7f02005e;
+        public static final int num_6=0x7f02005f;
+        public static final int num_7=0x7f020060;
+        public static final int num_8=0x7f020061;
     }
     public static final class id {
         public static final int RelListView=0x7f0a001e;
@@ -218,6 +219,7 @@ public final class R {
         public static final int map_url=0x7f070005;
         public static final int redirect_url=0x7f070009;
         public static final int rest=0x7f07000e;
+        public static final int reuqest_url=0x7f07001c;
         public static final int scenic=0x7f07000c;
         public static final int share=0x7f070012;
         public static final int share_text=0x7f070013;

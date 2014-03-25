@@ -1,21 +1,25 @@
 package com.travelapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +29,7 @@ public class ScenicListActivity extends Activity {
 	private TextView mTitleTextView;
 	private ImageView mMapImageView;
 	private static Resources mResources;
-	private Cursor mItemCursor = null;
+	private ArrayList<POI> mList = new ArrayList<POI>();
 	/**
 	 * 定义一个标签,在LogCat内表示EventListFragment
 	 */
@@ -34,21 +38,6 @@ public class ScenicListActivity extends Activity {
 	 * ListView实例,用于显示Event列表
 	 */
 	private ListView mPoiListView;
-	/**
-	 * 实例一个SimpleCursorAdapter,用与给listEvent绑定数据
-	 */
-	private SimpleCursorAdapter mSimpleCursorAdapter;
-	/**
-	 * 定义一个String[],用于指明绑定数据的哪些字段<br>
-	 * C_NAME,C_LOCATION,C_DATE
-	 */
-	private final String[] FROM = { PoiDB.C_NAME, PoiDB.C_PRICE,
-			PoiDB.C_ABSTRACT, PoiDB.C_ID };
-	/**
-	 * 定义一个int[],对应row.xml中的控件id,分别映射FROM中的元素
-	 */
-	private final int[] TO = { R.id.txtRowTitle, R.id.txtRowPrice,
-			R.id.txtRowAbstract, R.id.imgPalce };
 	/**
 	 * 实例一个Query
 	 */
@@ -113,82 +102,31 @@ public class ScenicListActivity extends Activity {
 		});
 	}
 
-	/**
-	 * 定义一个常量,用于按给定的格式绑Event的时间和地点数据<br>
-	 * 具体方法如下:<br>
-	 * 1)当给控件txtDateTime绑数据时,按格式"时间：" + C_DATE + " " + C_TIME<br>
-	 * 2)当给控件txtLocation绑数据时,按格式"地点：" +C_LOCATION
-	 */
-	private static final ViewBinder LIST_VIEW_BINDER = new ViewBinder() {
+	class PoiQuery extends AsyncTask<String[], String, ArrayList<POI>> {
 
 		@Override
-		public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
-			if (view.getId() == R.id.txtRowPrice) {
-				String date = cursor.getString(columnIndex);
-				((TextView) view).setText("门票：" + date);
-				return true;
-			} else if (view.getId() == R.id.txtRowTitle) {
-				String title = cursor.getString(columnIndex);
-				if (title.length() > 10) {
-					String name = title.substring(0, 10);
-					((TextView) view).setText(name + "...");
-				} else {
-					String name = title;
-					((TextView) view).setText(name);
-				}
-				return true;
-			} else if (view.getId() == R.id.txtRowAbstract) {
-				String place = cursor.getString(columnIndex).substring(0, 30);
-				((TextView) view).setText(place + "...");
-				return true;
-			} else if (view.getId() == R.id.imgPalce) {
-				String name = "img_0" + cursor.getString(columnIndex);
-
-				int id = mResources.getIdentifier(name, "drawable",
-						"com.travelapp");
-				Drawable mDrawable = mResources.getDrawable(id);
-				((ImageView) view).setImageDrawable(mDrawable);
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-	};
-
-	class PoiQuery extends AsyncTask<String[], String, String> {
-
-		@Override
-		protected String doInBackground(String[]... params) {
+		protected ArrayList<POI> doInBackground(String[]... params) {
 			mQuery = new Query();
 			try {
-				mItemCursor = mQuery.getPoiByType(1);
-				int num = mItemCursor.getCount();
+				mList = mQuery.getPoisFromWebAPI(1);
+				int num = mList.size();
 				Log.i(TAG, "ActivityProvider cursor" + num);
 			} catch (Exception e) {
 				Log.e(TAG, e.toString());
-			} finally {
-				if (mItemCursor.isClosed()) {
-					mItemCursor.close();
-				}
-				TravelApplication.getPoiDB().closeDatabase();
 			}
-			return "ok";
+			return mList;
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(ArrayList<POI> result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if (result != null) {
 				Toast.makeText(ScenicListActivity.this, "成功获取数据",
 						Toast.LENGTH_LONG).show();
-				mSimpleCursorAdapter = new SimpleCursorAdapter(
-						TravelApplication.getContext(), R.layout.row,
-						mItemCursor, FROM, TO,
-						CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-				mSimpleCursorAdapter.setViewBinder(LIST_VIEW_BINDER);
-				mPoiListView.setAdapter(mSimpleCursorAdapter);
+				QueryListAdapter mQueryListAdapter = new QueryListAdapter(
+						ScenicListActivity.this, R.layout.row, result);
+				mPoiListView.setAdapter(mQueryListAdapter);
 				mPoiListView.setOnItemClickListener(new OnItemClickListener() {
 
 					@Override
@@ -196,7 +134,8 @@ public class ScenicListActivity extends Activity {
 							int position, long id) {
 						Intent intent = new Intent(ScenicListActivity.this,
 								ScenicDetailActivity.class);
-						intent.putExtra("ID", id);
+						int poiId = mList.get(position).Id;
+						intent.putExtra("ID", poiId);
 						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 								| Intent.FLAG_ACTIVITY_NEW_TASK);
 						ScenicListActivity.this.startActivity(intent);
@@ -212,6 +151,47 @@ public class ScenicListActivity extends Activity {
 			}
 		}
 
+	}
+
+	class QueryListAdapter extends ArrayAdapter<POI> {
+		private int resourceId;
+
+		public QueryListAdapter(Context context, int textViewResourceId,
+				List<POI> objects) {
+			super(context, textViewResourceId, objects);
+			this.resourceId = textViewResourceId;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			POI mPoi = getItem(position);
+			LinearLayout queryListLayout = new LinearLayout(getContext());
+			String inflater = Context.LAYOUT_INFLATER_SERVICE;
+			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
+					inflater);
+			vi.inflate(resourceId, queryListLayout, true);
+			TextView mItemTitle = (TextView) queryListLayout
+					.findViewById(R.id.txtRowTitle);
+			TextView mItemPrice = (TextView) queryListLayout
+					.findViewById(R.id.txtRowPrice);
+			TextView mItemAbstract = (TextView) queryListLayout
+					.findViewById(R.id.txtRowAbstract);
+			ImageView mItemImage = (ImageView) queryListLayout
+					.findViewById(R.id.imgPalce);
+			mItemTitle.setText(mPoi.Name);
+			mItemPrice.setText(mPoi.Ticket);
+			mItemAbstract.setText(mPoi.Abstract);
+			if (mPoi.ImgUrl == null || mPoi.ImgUrl.equals("null")) {
+				int id = mResources.getIdentifier("img_missing", "drawable",
+						"com.travelapp");
+				Drawable mDrawable = mResources.getDrawable(id);
+				mItemImage.setImageDrawable(mDrawable);
+			} else {
+				String imgUrl = mPoi.ImgUrl + "_mini.jpg";
+				mItemImage.setImageBitmap(mQuery.returnBitMap(imgUrl));
+			}
+			return queryListLayout;
+		}
 	}
 
 }

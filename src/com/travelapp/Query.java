@@ -1,10 +1,30 @@
 package com.travelapp;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.JsonToken;
+
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
@@ -302,5 +322,167 @@ public class Query {
 		mPoiProvider.query(queryUri, null, null, null, null);
 		mPoisProvider.query(queryUri, null, null, null, null);
 		return mItemCursor;
+	}
+
+	/*
+	 * 从Web API获取数据POis
+	 */
+	public ArrayList<POI> getPoisFromWebAPI(int type) {
+		ArrayList<POI> mQueryList = new ArrayList<POI>();
+		try {
+			String result = getJsonFromWebAPI(TravelApplication.getContext()
+					.getString(R.string.reuqest_url) + getPoiType(type));
+			JsonFactory mJsonFactory = new JsonFactory();
+			JsonParser mjJsonParser = mJsonFactory.createJsonParser(result);
+			mjJsonParser.nextToken();
+			mjJsonParser.nextToken();
+			mQueryList = json2ArrayList(mjJsonParser);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.e("getPoiFromWebAPI", mQueryList.toString());
+
+		return mQueryList;
+	}
+
+	public POI getPoiFromAPI(int id) {
+		POI mPoi = new POI();
+		try {
+			String result = getJsonFromWebAPI(TravelApplication.getContext()
+					.getString(R.string.reuqest_url) + "/" + id);
+			JsonFactory mJsonFactory = new JsonFactory();
+			JsonParser mjJsonParser = mJsonFactory.createJsonParser(result);
+			mjJsonParser.nextToken();
+			mjJsonParser.nextToken();
+			ArrayList<POI> mPois = json2ArrayList(mjJsonParser);
+			mPoi = mPois.get(0);
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mPoi;
+	}
+
+	private String getPoiType(int type) {
+		String strSQL = "";
+		if (type > 0 && type <= 4) {
+			strSQL = "?type=" + type;
+		}
+		return strSQL;
+	}
+
+	private ArrayList<POI> json2ArrayList(JsonParser jsonParser) {
+		ArrayList<POI> queryList = new ArrayList<POI>();
+		try {
+			while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
+				String nameString = jsonParser.getCurrentName();
+				POI mPoi = new POI();
+				if ("Id".equals(nameString)) {
+					while (jsonParser.nextToken() != JsonToken.END_OBJECT) {
+						String fieldname = jsonParser.getCurrentName();
+						if ("Id".equals(fieldname)) {
+							Log.e("Id", jsonParser.getText());
+							mPoi.Id = Integer.parseInt(jsonParser.getText());
+						} else if ("Name".equals(fieldname)) {
+							Log.e("Name", jsonParser.getText());
+							mPoi.Name = jsonParser.getText();
+						} else if ("C_ID".equals(fieldname)) {
+							Log.e("C_ID", jsonParser.getText());
+							if (!jsonParser.getText().equals(fieldname)) {
+								mPoi.C_ID = Integer.parseInt(jsonParser
+										.getText());
+							}
+						} else if ("D_Name".equals(fieldname)) {
+							Log.e("D_Name", jsonParser.getText());
+							mPoi.D_Name = jsonParser.getText();
+						} else if ("Time".equals(fieldname)) {
+							Log.e("Time", jsonParser.getText());
+							mPoi.Time = jsonParser.getText();
+						} else if ("Tele".equals(fieldname)) {
+							Log.e("Tele", jsonParser.getText());
+							mPoi.Tele = jsonParser.getText();
+						} else if ("Abstract".equals(fieldname)) {
+							Log.e("Abstract", jsonParser.getText());
+							mPoi.Abstract = jsonParser.getText();
+						} else if ("Ticket".equals(fieldname)) {
+							Log.e("Ticket", jsonParser.getText());
+							mPoi.Ticket = jsonParser.getText();
+						} else if ("Type".equals(fieldname)) {
+							Log.e("Type", jsonParser.getText());
+							mPoi.Type = jsonParser.getText();
+						} else if ("Geometry".equals(fieldname)) {
+							Log.e("Geometry", jsonParser.getText());
+							mPoi.Geometry = jsonParser.getText();
+						} else if ("ImgUrl".equals(fieldname)) {
+							Log.e("ImgUrl", jsonParser.getText());
+							mPoi.ImgUrl = jsonParser.getText();
+						}
+					}
+					Log.e("finish", "finish");
+					queryList.add(mPoi);
+				}
+			}
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Log.e("json2ArrayList", queryList.toString());
+		return queryList;
+	}
+
+	private String getJsonFromWebAPI(String url) {
+		String result = "";
+		try {
+			String requestURL = url;
+			HttpGet httpRequest = new HttpGet(requestURL);
+			HttpClient httpclient = new DefaultHttpClient();
+			httpclient.getParams().setParameter(
+					CoreConnectionPNames.CONNECTION_TIMEOUT, 0);
+			httpclient.getParams().setParameter(
+					CoreConnectionPNames.SO_TIMEOUT, 0);
+			HttpResponse httpResponse = httpclient.execute(httpRequest);
+			int status = httpResponse.getStatusLine().getStatusCode();
+			if (status == HttpStatus.SC_OK) {
+				result = EntityUtils
+						.toString(httpResponse.getEntity(), "utf-8");
+			}
+
+		} catch (Exception e) {
+			Log.e("WebAPI", e.toString());
+		}
+
+		return result;
+	}
+
+	public Bitmap returnBitMap(String url) {
+		URL myFileUrl = null;
+		Bitmap bitmap = null;
+		try {
+			myFileUrl = new URL(url);
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		try {
+			HttpURLConnection conn = (HttpURLConnection) myFileUrl
+					.openConnection();
+			conn.setDoInput(true);
+			conn.connect();
+			InputStream is = conn.getInputStream();
+			bitmap = BitmapFactory.decodeStream(is);
+			is.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return bitmap;
 	}
 }
