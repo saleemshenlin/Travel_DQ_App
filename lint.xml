@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="ContentDescription">
+        <ignore path="res/layout/activity_detail.xml" />
+    </issue>
     <issue id="HandlerLeak" severity="ignore" />
+    <issue id="HardcodedText">
+        <ignore path="res/layout/activity_detail.xml" />
+    </issue>
     <issue id="ShowToast" severity="ignore" />
 </lint>

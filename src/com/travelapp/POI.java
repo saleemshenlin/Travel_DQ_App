@@ -1,5 +1,7 @@
 package com.travelapp;
 
+import android.graphics.Bitmap;
+
 public class POI {
 
 	public int Id;
@@ -14,5 +16,6 @@ public class POI {
 	public String Type;
 	public String Geometry;
 	public int Status;
-	public String ImgUrl;;
+	public String ImgUrl;
+	public Bitmap Image;
 }

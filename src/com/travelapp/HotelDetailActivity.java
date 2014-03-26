@@ -3,8 +3,9 @@ package com.travelapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,11 +23,10 @@ public class HotelDetailActivity extends Activity {
 	private TextView mItemTele;
 	private TextView mItemAbstract;
 	private ImageView mMapImageView;
-	private Cursor mItemCursor = null;
 	private Query mQuery;
 	private Intent mIntent;
 	private Bundle mBundle;
-	private String mPoiId;
+	private int mPoiId;
 	private String mFrom;
 	private Resources mResources;
 
@@ -37,11 +37,11 @@ public class HotelDetailActivity extends Activity {
 		setContentView(R.layout.activity_detail);
 		mIntent = getIntent();
 		mBundle = mIntent.getExtras();
-		mPoiId = String.valueOf(mBundle.getLong("ID"));
+		mPoiId = mBundle.getInt("ID");
 		mFrom = "Detail";
 		mResources = this.getResources();
 		initView();
-		getPOI(mPoiId);
+		new getPOI().execute(String.valueOf(mPoiId));
 		// new AddMap().execute();
 	}
 
@@ -145,7 +145,7 @@ public class HotelDetailActivity extends Activity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra("FUNCTION", "POI");
-				intent.putExtra("TYPE", Integer.parseInt(mPoiId));
+				intent.putExtra("TYPE", mPoiId);
 				HotelDetailActivity.this.startActivity(intent);
 				HotelDetailActivity.this.finish();
 				HotelDetailActivity.this.overridePendingTransition(
@@ -159,42 +159,41 @@ public class HotelDetailActivity extends Activity {
 		}
 	}
 
-	private void getPOI(String id) {
-		mQuery = new Query();
-		mItemCursor = mQuery.getPoiById(id);
-		try {
-			if (mItemCursor.moveToFirst()) {
-				mTitleTextView.setText(mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_NAME)));
-				mItemPrice.setText("房价："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_PRICE)));
-				mItemTime.setText("时间："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_TIME)));
-				mItemAddress.setText("地址："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_ADDRESS)));
-				mItemTele.setText("电话："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_TELE)));
-				mItemAbstract.setText("简介："
-						+ mItemCursor.getString(mItemCursor
-								.getColumnIndex(PoiDB.C_ABSTRACT)));
-				String name = "img_0" + id;
+	class getPOI extends AsyncTask<String, String, POI> {
 
-				int imgId = mResources.getIdentifier(name, "drawable",
-						"com.travelapp");
-				Drawable mDrawable = mResources.getDrawable(imgId);
-				mItemImageView.setImageDrawable(mDrawable);
+		@Override
+		protected POI doInBackground(String... ids) {
+			// TODO Auto-generated method stub
+			mQuery = new Query();
+			POI mPoi = mQuery.getPoiFromAPI(ids[0]);
+			return mPoi;
+		}
+
+		@Override
+		protected void onPostExecute(POI mPoi) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(mPoi);
+			try {
+				if (mPoi != null) {
+					mTitleTextView.setText(mPoi.Name);
+					mItemPrice.setText("房价：" + mPoi.Ticket);
+					mItemTime.setText("时间：" + mPoi.Time);
+					mItemAddress.setText("地址：" + mPoi.Address);
+					mItemTele.setText("电话：" + mPoi.Tele);
+					mItemAbstract.setText("简介：" + mPoi.Abstract);
+					if (mPoi.ImgUrl != null || !mPoi.ImgUrl.equals("null")) {
+						String filePath = HotelDetailActivity.this
+								.getExternalFilesDir("cache")
+								+ "/"
+								+ Query.returnBitMap(mPoi.ImgUrl);
+						Bitmap mBitmap = Query.readBitmapFromFile(
+								getApplicationContext(), filePath, 1);
+						mItemImageView.setImageBitmap(mBitmap);
+					}
+				}
+			} catch (Exception e) {
+				Log.e("HotelDetail", e.toString());
 			}
-		} catch (Exception e) {
-			Log.e("Detail", e.toString());
-		} finally {
-			if (mItemCursor != null) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
 		}
 
 	}

@@ -29,6 +29,8 @@
     <string name="weibosdk_demo_toast_share_failed">分享失败</string>
     <string name="weibosdk_demo_toast_share_canceled">取消分享</string>
     <string name="esri_client_id">XLnofg0vlL1bLnkH</string>
-    <string name="reuqest_url">http://219.235.3.244:9876/api/poi</string>
+    <string name="request_url">http://219.235.3.244:9876/api/poi</string>
+    <string name="request_host">http://219.235.3.244:9876</string>
+    <string name="textview">TextView</string>
 
 </resources>

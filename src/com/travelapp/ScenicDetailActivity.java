@@ -3,8 +3,9 @@ package com.travelapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,7 +23,6 @@ public class ScenicDetailActivity extends Activity {
 	private TextView mItemTele;
 	private TextView mItemAbstract;
 	private ImageView mMapImageView;
-	private Cursor mItemCursor = null;
 	private Query mQuery;
 	private Intent mIntent;
 	private Bundle mBundle;
@@ -37,11 +37,11 @@ public class ScenicDetailActivity extends Activity {
 		setContentView(R.layout.activity_detail);
 		mIntent = getIntent();
 		mBundle = mIntent.getExtras();
-		mPoiId = (int) mBundle.getLong("ID");
+		mPoiId = mBundle.getInt("ID");
 		mFrom = "Detail";
 		mResources = this.getResources();
 		initView();
-		getPOI(mPoiId);
+		new getPOI().execute(String.valueOf(mPoiId));
 		// new AddMap().execute();
 	}
 
@@ -182,29 +182,42 @@ public class ScenicDetailActivity extends Activity {
 		}
 	}
 
-	private void getPOI(int id) {
-		mQuery = new Query();
-		POI mPoi = mQuery.getPoiFromAPI(id);
-		try {
-			if (mPoi != null) {
-				mTitleTextView.setText(mPoi.Name);
-				mItemPrice.setText("门票：" + mPoi.Ticket);
-				mItemTime.setText("时间：" + mPoi.Time);
-				mItemAddress.setText("地址：" + mPoi.Address);
-				mItemTele.setText("电话：" + mPoi.Tele);
-				mItemAbstract.setText("简介：" + mPoi.Abstract);
-				if (mPoi.ImgUrl == null || mPoi.ImgUrl.equals("null")) {
-					int imgId = mResources.getIdentifier("img_missing",
-							"drawable", "com.travelapp");
-					Drawable mDrawable = mResources.getDrawable(imgId);
-					mItemImageView.setImageDrawable(mDrawable);
-				} else {
-					String imgUrl = mPoi.ImgUrl + "_mini.jpg";
-					mItemImageView.setImageBitmap(mQuery.returnBitMap(imgUrl));
-				}
-			}
-		} catch (Exception e) {
-			Log.e("ScenicDetail", e.toString());
+	class getPOI extends AsyncTask<String, String, POI> {
+
+		@Override
+		protected POI doInBackground(String... ids) {
+			// TODO Auto-generated method stub
+			mQuery = new Query();
+			POI mPoi = mQuery.getPoiFromAPI(ids[0]);
+			return mPoi;
 		}
+
+		@Override
+		protected void onPostExecute(POI mPoi) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(mPoi);
+			try {
+				if (mPoi != null) {
+					mTitleTextView.setText(mPoi.Name);
+					mItemPrice.setText("门票：" + mPoi.Ticket);
+					mItemTime.setText("时间：" + mPoi.Time);
+					mItemAddress.setText("地址：" + mPoi.Address);
+					mItemTele.setText("电话：" + mPoi.Tele);
+					mItemAbstract.setText("简介：" + mPoi.Abstract);
+					if (mPoi.ImgUrl != null || !mPoi.ImgUrl.equals("null")) {
+						String filePath = ScenicDetailActivity.this
+								.getExternalFilesDir("cache")
+								+ "/"
+								+ Query.returnBitMap(mPoi.ImgUrl);
+						Bitmap mBitmap = Query.readBitmapFromFile(
+								getApplicationContext(), filePath, 1);
+						mItemImageView.setImageBitmap(mBitmap);
+					}
+				}
+			} catch (Exception e) {
+				Log.e("ScenicDetail", e.toString());
+			}
+		}
+
 	}
 }

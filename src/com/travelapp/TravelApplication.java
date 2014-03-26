@@ -1,5 +1,7 @@
 package com.travelapp;
 
+import java.io.File;
+
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
@@ -51,6 +53,7 @@ public class TravelApplication extends Application {
 
 	private BDLocationListener mBDListener = (BDLocationListener) new MyLocationListener();
 	private static PoiDB mPoiDB;
+	public static File imgCache;
 
 	public static Context getContext() {
 		return CONTEXT;
@@ -82,6 +85,12 @@ public class TravelApplication extends Application {
 		initWX();
 		initWB();
 		initEsriSDK();
+		// ½¨Á¢Í¼Æ¬»º´æ
+		imgCache = new File(TravelApplication.getContext().getExternalFilesDir(
+				""), "cache");
+		if (!imgCache.exists()) {
+			imgCache.mkdirs();
+		}
 	}
 
 	/**
@@ -96,6 +105,11 @@ public class TravelApplication extends Application {
 	public static int Dp2Px(Context context, int dp) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (dp * scale + 0.5f);
+	}
+
+	public static int Px2Dp(Context context, int px) {
+		final float scale = context.getResources().getDisplayMetrics().density;
+		return (int) ((px - 0.5f) / scale);
 	}
 
 	/**
@@ -251,9 +265,9 @@ public class TravelApplication extends Application {
 				getApplicationContext().getString(R.string.wb_app_id),
 				getApplicationContext().getString(R.string.redirect_url), null);
 	}
-	
-	private void initEsriSDK(){
+
+	private void initEsriSDK() {
 		String myClientID = this.getString(R.string.esri_client_id);
-		ArcGISRuntime.setClientId(myClientID); 
+		ArcGISRuntime.setClientId(myClientID);
 	}
 }
