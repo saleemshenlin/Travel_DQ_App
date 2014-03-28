@@ -221,12 +221,13 @@ public final class R {
         public static final int request_host=0x7f07001d;
         public static final int request_url=0x7f07001c;
         public static final int rest=0x7f07000e;
+        public static final int route_url=0x7f07001e;
         public static final int scenic=0x7f07000c;
         public static final int share=0x7f070012;
         public static final int share_text=0x7f070013;
         public static final int share_wb=0x7f070011;
         public static final int share_wx=0x7f070010;
-        public static final int textview=0x7f07001e;
+        public static final int textview=0x7f07001f;
         public static final int txtHomePlace=0x7f070004;
         public static final int txtHomeTitle=0x7f070003;
         public static final int wb_app_id=0x7f070008;

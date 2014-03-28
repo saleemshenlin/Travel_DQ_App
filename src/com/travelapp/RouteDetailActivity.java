@@ -1,7 +1,9 @@
 package com.travelapp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,7 +12,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +20,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.esri.android.map.Callout;
 import com.esri.android.map.CalloutStyle;
@@ -35,9 +36,8 @@ import com.esri.android.map.ags.ArcGISTiledMapServiceLayer;
 import com.esri.android.map.event.OnSingleTapListener;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.Point;
-import com.esri.core.geometry.Polyline;
 import com.esri.core.map.Graphic;
-import com.esri.core.symbol.SimpleLineSymbol;
+import com.esri.core.symbol.PictureMarkerSymbol;
 
 public class RouteDetailActivity extends Activity {
 	ImageView mBackImageView;
@@ -71,9 +71,7 @@ public class RouteDetailActivity extends Activity {
 		mResources = this.getResources();
 		initView();
 		mList = new ArrayList<Route>();
-		mPOIs = getRoute(mRouteID);
-		getRoutePoi(mPOIs);
-		initData();
+		new GetRoute().execute();
 		new AddMap().execute();
 	}
 
@@ -114,65 +112,53 @@ public class RouteDetailActivity extends Activity {
 		});
 	}
 
-	private String getRoute(int routeid) {
+	private String getRoute(String routeid) {
 		String mRoutePOi = null;
-		mItemCursor = mQuery.getRouteById(routeid);
 		try {
-			if (mItemCursor.moveToFirst()) {
-				mRouteTitle.setText(mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_NAME)));
-				mRoutePOi = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_ABSTRACT));
-				String WKT = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_SHAPE));
-				SimpleLineSymbol sls = new SimpleLineSymbol(Color.rgb(0, 153,
-						204), 4);
-				Polyline mPolyline = (Polyline) Query.wkt2Geometry(WKT);
-				mGeometry = mPolyline;
-				Graphic mGraphic = new Graphic(mPolyline, sls);
-				mRouteGraphicsLayer.addGraphic(mGraphic);
-			}
+			mRouteGraphicsLayer = mQuery.getRouteByIdFromJson(routeid);
+			int[] mGraphics = mRouteGraphicsLayer.getGraphicIDs();
+			Graphic mGraphic = mRouteGraphicsLayer.getGraphic(mGraphics[0]);
+			mRoutePOi = (String) mGraphic.getAttributeValue("Detail");
+			mRouteTitle.setText((String) mGraphic.getAttributeValue("Name"));
+			mGeometry = mGraphic.getGeometry();
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
-		} finally {
-			if (mItemCursor.isClosed()) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
 		}
 		return mRoutePOi;
 	}
 
 	private void getRoutePoi(String pois) {
 		String[] mPois = pois.split(";");
+		Map<String, Object> mMap = new HashMap<String, Object>();
 		for (int i = 1; i <= mPois.length; i++) {
 			Log.e("lengh", String.valueOf(mPois.length));
-			final Uri queryUri = Uri.parse(RouteProvider.CONTENT_URI.toString()
-					+ "/" + mPois[i - 1].substring(1));
-			PoiProvider mPoiProvider = new PoiProvider();
-			mItemCursor = mPoiProvider.query(queryUri, null, null, null, null);
+			POI mPoi = mQuery.getPoiFromAPI(mPois[i - 1]);
 			try {
-				if (mItemCursor.moveToFirst()) {
+				if (mPoi != null) {
 					String mImg = "num_" + i;
-					String mName = mItemCursor.getString(mItemCursor
-							.getColumnIndex(PoiDB.C_NAME));
-					String mAbstract = mItemCursor.getString(mItemCursor
-							.getColumnIndex(PoiDB.C_ABSTRACT));
+					String mName = mPoi.Name;
+					String mAbstract = mPoi.Abstract;
 					Route mRoute = new Route();
 					mRoute.IMG = mImg;
 					mRoute.NAME = mName;
 					mRoute.ABSTRACT = mAbstract;
-					mPoiGraphicsLayer.addGraphic(mQuery.getPoisByIdInRoute(
-							this, mPois[i - 1].substring(1), i));
+					mMap.put("NAME", mName);
+					mMap.put("POSTION", mImg);
+					int imgId = RouteDetailActivity.this.getResources()
+							.getIdentifier(mImg, "drawable", "com.travelapp");
+					Drawable mDrawable = RouteDetailActivity.this
+							.getResources().getDrawable(imgId);
+					PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
+							mDrawable);
+					Point mPoint = (Point) Query.wkt2Geometry(mPoi.Geometry);
+					Point mNewPoint = new Point(mPoint.getX(),
+							mPoint.getY() + 200);
+					mPoiGraphicsLayer.addGraphic(new Graphic(mNewPoint,
+							mPictureMarkerSymbol, mMap, 0));
 					mList.add(mRoute);
 				}
 			} catch (Exception e) {
 				Log.e(TAG, e.toString());
-			} finally {
-				if (mItemCursor.isClosed()) {
-					mItemCursor.close();
-				}
-				TravelApplication.getPoiDB().closeDatabase();
 			}
 		}
 	}
@@ -188,10 +174,8 @@ public class RouteDetailActivity extends Activity {
 					int position, long id) {
 				Intent intent = new Intent(RouteDetailActivity.this,
 						ScenicDetailActivity.class);
-				intent.putExtra(
-						"ID",
-						Long.parseLong(mPOIs.split(";")[Integer.parseInt(id
-								+ "")]));
+				intent.putExtra("ID",
+						Integer.parseInt(mPOIs.split(";")[(int) id]));
 				intent.putExtra("FROM", "RouteDetailActivity");
 				intent.putExtra("ROUTEID", mRouteID);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -212,11 +196,34 @@ public class RouteDetailActivity extends Activity {
 
 	class RouteListAdapter extends ArrayAdapter<Route> {
 		private int resourceId;
+		private List<Route> list;
 
 		public RouteListAdapter(Context context, int textViewResourceId,
 				List<Route> objects) {
 			super(context, textViewResourceId, objects);
 			this.resourceId = textViewResourceId;
+			this.list = objects;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			Log.e("GetView_getCount", list.size() + "");
+			return list.size();
+		}
+
+		@Override
+		public Route getItem(int position) {
+			// TODO Auto-generated method stub
+			Log.e("GetView_getItem", position + "");
+			return list.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			// TODO Auto-generated method stub
+			Log.e("GetView_getItemId", position + "");
+			return position;
 		}
 
 		@Override
@@ -312,9 +319,28 @@ public class RouteDetailActivity extends Activity {
 			if (result != null) {
 				// Toast.makeText(RouteDetailActivity.this, "成功获取地图",
 				// Toast.LENGTH_LONG).show();
-
+				initData();
 			}
 
 		}
+	}
+
+	class GetRoute extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			mPOIs = getRoute(String.valueOf(mRouteID));
+			getRoutePoi(mPOIs);
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+
+		}
+
 	}
 }

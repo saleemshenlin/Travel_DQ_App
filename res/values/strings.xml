@@ -31,6 +31,7 @@
     <string name="esri_client_id">XLnofg0vlL1bLnkH</string>
     <string name="request_url">http://219.235.3.244:9876/api/poi</string>
     <string name="request_host">http://219.235.3.244:9876</string>
+    <string name="route_url">/Update/route.json</string>
     <string name="textview">TextView</string>
 
 </resources>

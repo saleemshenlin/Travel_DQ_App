@@ -31,6 +31,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.Log;
@@ -42,8 +43,10 @@ import com.esri.core.geometry.MultiPath;
 import com.esri.core.geometry.Point;
 import com.esri.core.geometry.Polygon;
 import com.esri.core.geometry.Polyline;
+import com.esri.core.map.FeatureSet;
 import com.esri.core.map.Graphic;
 import com.esri.core.symbol.PictureMarkerSymbol;
+import com.esri.core.symbol.SimpleLineSymbol;
 
 public class Query {
 	/**
@@ -682,4 +685,34 @@ public class Query {
 
 	}
 
+	/*
+	 * 从url获取路径json，然后转换成GraphicsLayer
+	 */
+	public GraphicsLayer getRouteByIdFromJson(String id) {
+		GraphicsLayer mGraphicsLayer = new GraphicsLayer();
+		String url = TravelApplication.getContext().getString(
+				R.string.request_host)
+				+ TravelApplication.getContext().getString(R.string.route_url);
+		String result = getJsonFromWebAPI(url);
+		JsonFactory mJsonFactory = new JsonFactory();
+		try {
+			JsonParser mjJsonParser = mJsonFactory.createJsonParser(result);
+			mjJsonParser.nextToken();
+			FeatureSet mFeatureSet = FeatureSet.fromJson(mjJsonParser);
+			Graphic[] mGraphics = mFeatureSet.getGraphics();
+			for (Graphic mGraphic : mGraphics) {
+				if (mGraphic.getAttributeValue("NewID").equals(id)) {
+					SimpleLineSymbol sls = new SimpleLineSymbol(Color.rgb(0,
+							153, 204), 4);
+					Graphic newGraphic = new Graphic(mGraphic.getGeometry(),
+							sls, mGraphic.getAttributes(), 0);
+					mGraphicsLayer.addGraphic(newGraphic);
+					break;
+				}
+			}
+		} catch (Exception e) {
+			Log.e("Query", e.toString());
+		}
+		return mGraphicsLayer;
+	}
 }
