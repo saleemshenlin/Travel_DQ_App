@@ -27,6 +27,7 @@ public class ScenicDetailActivity extends Activity {
 	private Intent mIntent;
 	private Bundle mBundle;
 	private int mPoiId;
+	private int mPoiType;
 	private String mFrom;
 	private Resources mResources;
 
@@ -165,7 +166,8 @@ public class ScenicDetailActivity extends Activity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra("FUNCTION", "POI");
-				intent.putExtra("TYPE", mPoiId);
+				intent.putExtra("TYPE", mPoiType);
+				intent.putExtra("ID", mPoiId);
 				ScenicDetailActivity.this.startActivity(intent);
 				ScenicDetailActivity.this.finish();
 				ScenicDetailActivity.this.overridePendingTransition(
@@ -204,6 +206,7 @@ public class ScenicDetailActivity extends Activity {
 					mItemAddress.setText("µÿ÷∑£∫" + mPoi.Address);
 					mItemTele.setText("µÁª∞£∫" + mPoi.Tele);
 					mItemAbstract.setText("ºÚΩÈ£∫" + mPoi.Abstract);
+					mPoiType = mPoi.C_ID;
 					if (mPoi.ImgUrl != null || !mPoi.ImgUrl.equals("null")) {
 						String filePath = ScenicDetailActivity.this
 								.getExternalFilesDir("cache")

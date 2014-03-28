@@ -28,6 +28,7 @@ public class FunDetailActivity extends Activity {
 	private Intent mIntent;
 	private Bundle mBundle;
 	private int mPoiId;
+	private int mPoiType;
 	private String mFrom;
 	private Resources mResources;
 
@@ -130,7 +131,8 @@ public class FunDetailActivity extends Activity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra("FUNCTION", "POI");
-				intent.putExtra("TYPE", mPoiId);
+				intent.putExtra("TYPE", mPoiType);
+				intent.putExtra("ID", mPoiId);
 				FunDetailActivity.this.startActivity(intent);
 				FunDetailActivity.this.finish();
 				FunDetailActivity.this.overridePendingTransition(
@@ -161,10 +163,11 @@ public class FunDetailActivity extends Activity {
 			try {
 				if (mPoi != null) {
 					mTitleTextView.setText(mPoi.Name);
-					mItemPrice.setText("门票：" + mPoi.Ticket);
+					mItemPrice.setText("开放时间：" + mPoi.Time);
 					mItemAddress.setText("地址：" + mPoi.Address);
 					mItemTele.setText("电话：" + mPoi.Tele);
 					mItemAbstract.setText("简介：" + mPoi.Abstract);
+					mPoiType = mPoi.C_ID;
 					if (mPoi.ImgUrl != null || !mPoi.ImgUrl.equals("null")) {
 						String filePath = FunDetailActivity.this
 								.getExternalFilesDir("cache")

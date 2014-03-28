@@ -27,6 +27,7 @@ public class HotelDetailActivity extends Activity {
 	private Intent mIntent;
 	private Bundle mBundle;
 	private int mPoiId;
+	private int mPoiType;
 	private String mFrom;
 	private Resources mResources;
 
@@ -145,7 +146,8 @@ public class HotelDetailActivity extends Activity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra("FUNCTION", "POI");
-				intent.putExtra("TYPE", mPoiId);
+				intent.putExtra("TYPE", mPoiType);
+				intent.putExtra("ID", mPoiId);
 				HotelDetailActivity.this.startActivity(intent);
 				HotelDetailActivity.this.finish();
 				HotelDetailActivity.this.overridePendingTransition(
@@ -177,10 +179,11 @@ public class HotelDetailActivity extends Activity {
 				if (mPoi != null) {
 					mTitleTextView.setText(mPoi.Name);
 					mItemPrice.setText("房价：" + mPoi.Ticket);
-					mItemTime.setText("时间：" + mPoi.Time);
+					mItemTime.setText("星级：" + mPoi.Type);
 					mItemAddress.setText("地址：" + mPoi.Address);
 					mItemTele.setText("电话：" + mPoi.Tele);
 					mItemAbstract.setText("简介：" + mPoi.Abstract);
+					mPoiType = mPoi.C_ID;
 					if (mPoi.ImgUrl != null || !mPoi.ImgUrl.equals("null")) {
 						String filePath = HotelDetailActivity.this
 								.getExternalFilesDir("cache")

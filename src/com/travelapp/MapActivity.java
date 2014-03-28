@@ -147,6 +147,7 @@ public class MapActivity extends Activity {
 					break;
 				}
 			} else {
+				final int mPoiId = mBundle.getInt("ID");
 				switch (Integer.parseInt(String.valueOf(mType).substring(0, 1))) {
 				case 1:
 					mBackImageView
@@ -158,8 +159,7 @@ public class MapActivity extends Activity {
 									Intent intent = new Intent(
 											MapActivity.this,
 											ScenicDetailActivity.class);
-									intent.putExtra("ID", Long.parseLong(String
-											.valueOf(mType)));
+									intent.putExtra("ID", mPoiId);
 									intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 											| Intent.FLAG_ACTIVITY_NEW_TASK);
 									MapActivity.this.startActivity(intent);
@@ -180,8 +180,7 @@ public class MapActivity extends Activity {
 									Intent intent = new Intent(
 											MapActivity.this,
 											HotelDetailActivity.class);
-									intent.putExtra("ID", Long.parseLong(String
-											.valueOf(mType)));
+									intent.putExtra("ID", mPoiId);
 									intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 											| Intent.FLAG_ACTIVITY_NEW_TASK);
 									MapActivity.this.startActivity(intent);
@@ -202,8 +201,7 @@ public class MapActivity extends Activity {
 									Intent intent = new Intent(
 											MapActivity.this,
 											RestDetailActivity.class);
-									intent.putExtra("ID", Long.parseLong(String
-											.valueOf(mType)));
+									intent.putExtra("ID", mPoiId);
 									intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 											| Intent.FLAG_ACTIVITY_NEW_TASK);
 									MapActivity.this.startActivity(intent);
@@ -224,8 +222,7 @@ public class MapActivity extends Activity {
 									Intent intent = new Intent(
 											MapActivity.this,
 											FunDetailActivity.class);
-									intent.putExtra("ID", Long.parseLong(String
-											.valueOf(mType)));
+									intent.putExtra("ID", mPoiId);
 									intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 											| Intent.FLAG_ACTIVITY_NEW_TASK);
 									MapActivity.this.startActivity(intent);
@@ -264,9 +261,10 @@ public class MapActivity extends Activity {
 		// create a simple marker symbol to be used by our graphic
 		mQuery = new Query();
 		if (function.equals("POIS")) {
-			mLayer = mQuery.getPoisByType(TravelApplication.getContext(), type);
+			mLayer = mQuery.getPoisLocation(TravelApplication.getContext(),
+					type);
 		} else {
-			mLayer = mQuery.getPoisById(TravelApplication.getContext(),
+			mLayer = mQuery.getPoiLocation(TravelApplication.getContext(),
 					String.valueOf(type));
 		}
 		return mLayer;
@@ -362,6 +360,7 @@ public class MapActivity extends Activity {
 								.getGraphic(graphicIDs[0]);
 						String poiName = (String) mGraphic
 								.getAttributeValue("NAME");
+
 						if (poiName.length() > 7) {
 							String name = poiName.substring(0, 7);
 							mTextView.setText(name + "...");
@@ -369,9 +368,11 @@ public class MapActivity extends Activity {
 							String name = poiName;
 							mTextView.setText(name);
 						}
-						final String poiId = (String) mGraphic
-								.getAttributeValue("ID");
-						switch (Integer.parseInt(poiId.substring(0, 1))) {
+						final int poiId = Integer.parseInt((String) mGraphic
+								.getAttributeValue("ID"));
+						final int poiType = Integer.parseInt((String) mGraphic
+								.getAttributeValue("TYPE"));
+						switch (poiType) {
 						case 1:
 							imgId = MapActivity.this.getResources()
 									.getIdentifier("ic_scenic", "drawable",
@@ -417,8 +418,7 @@ public class MapActivity extends Activity {
 										@Override
 										public void onClick(View v) {
 											TravelApplication.isFromMap = true;
-											newIntent.putExtra("ID",
-													Long.parseLong(poiId));
+											newIntent.putExtra("ID", poiId);
 											newIntent.putExtra("FROM",
 													"MapActivity");
 											newIntent
@@ -442,8 +442,7 @@ public class MapActivity extends Activity {
 										@Override
 										public void onClick(View v) {
 											TravelApplication.isFromMap = true;
-											newIntent.putExtra("ID",
-													Long.parseLong(poiId));
+											newIntent.putExtra("ID", poiId);
 											newIntent.putExtra("FROM",
 													"ListActivity");
 											newIntent

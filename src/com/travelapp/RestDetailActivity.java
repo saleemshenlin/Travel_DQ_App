@@ -27,6 +27,7 @@ public class RestDetailActivity extends Activity {
 	private Intent mIntent;
 	private Bundle mBundle;
 	private int mPoiId;
+	private int mPoiType;
 	private String mFrom;
 	private Resources mResources;
 
@@ -145,7 +146,8 @@ public class RestDetailActivity extends Activity {
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.putExtra("FUNCTION", "POI");
-				intent.putExtra("TYPE", mPoiId);
+				intent.putExtra("TYPE", mPoiType);
+				intent.putExtra("ID", mPoiId);
 				RestDetailActivity.this.startActivity(intent);
 				RestDetailActivity.this.finish();
 				RestDetailActivity.this.overridePendingTransition(
@@ -181,6 +183,7 @@ public class RestDetailActivity extends Activity {
 					mItemAddress.setText("µÿ÷∑£∫" + mPoi.Address);
 					mItemTele.setText("µÁª∞£∫" + mPoi.Tele);
 					mItemAbstract.setText("ºÚΩÈ£∫" + mPoi.Abstract);
+					mPoiType = mPoi.C_ID;
 					if (mPoi.ImgUrl != null || !mPoi.ImgUrl.equals("null")) {
 						String filePath = RestDetailActivity.this
 								.getExternalFilesDir("cache")

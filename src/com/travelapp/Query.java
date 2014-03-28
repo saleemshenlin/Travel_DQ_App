@@ -331,7 +331,7 @@ public class Query {
 	}
 
 	/*
-	 * 从Web API获取数据POis
+	 * 从Web API获取数据POis,通过json转换成arraylist
 	 */
 	public ArrayList<POI> getPoisFromWebAPI(int type) {
 		ArrayList<POI> mQueryList = new ArrayList<POI>();
@@ -355,6 +355,9 @@ public class Query {
 		return mQueryList;
 	}
 
+	/*
+	 * 获取单个POI的信息，直接保存成POI类
+	 */
 	public POI getPoiFromAPI(String id) {
 		POI mPoi = new POI();
 		try {
@@ -432,6 +435,9 @@ public class Query {
 		return strSQL;
 	}
 
+	/*
+	 * 将Json转换成ArrayList
+	 */
 	private ArrayList<POI> json2ArrayList(JsonParser jsonParser) {
 		ArrayList<POI> queryList = new ArrayList<POI>();
 		try {
@@ -496,6 +502,9 @@ public class Query {
 		return queryList;
 	}
 
+	/*
+	 * 根据连接获取Json
+	 */
 	private String getJsonFromWebAPI(String url) {
 		String result = "";
 		try {
@@ -557,6 +566,9 @@ public class Query {
 		return name;
 	}
 
+	/*
+	 * 图片保存地址MD5加密
+	 */
 	public static class MD5 {
 
 		public static String getMD5(String content) {
@@ -600,6 +612,74 @@ public class Query {
 			e.printStackTrace();
 		}
 		return BitmapFactory.decodeStream(is, null, opt);
+	}
+
+	/*
+	 * 获取多个poi的位置
+	 */
+	public GraphicsLayer getPoisLocation(Context context, int type) {
+		GraphicsLayer mGraphicsLayer = new GraphicsLayer();
+		ArrayList<POI> pois = getPoisFromWebAPI(type);
+		Map<String, Object> mMap = new HashMap<String, Object>();
+		try {
+			for (POI poi : pois) {
+				String WKT = poi.Geometry;
+				String ID = String.valueOf(poi.Id);
+				String TYPE = String.valueOf(poi.C_ID);
+				String NAME = poi.Name;
+				mMap.put("NAME", NAME);
+				mMap.put("ID", ID);
+				mMap.put("TYPE", TYPE);
+				int imgId = context.getResources().getIdentifier("ic_" + TYPE,
+						"drawable", "com.travelapp");
+				Drawable mDrawable = context.getResources().getDrawable(imgId);
+				PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
+						mDrawable);
+				Point mPoint = (Point) Query.wkt2Geometry(WKT);
+				Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
+				Graphic mGraphic = new Graphic(mPoint, mPictureMarkerSymbol,
+						mMap, 0);
+				mGraphicsLayer.addGraphic(mGraphic);
+			}
+		} catch (Exception e) {
+			Log.e("Query", e.toString());
+		}
+		return mGraphicsLayer;
+
+	}
+
+	/*
+	 * 获取当个poi位置
+	 */
+	public GraphicsLayer getPoiLocation(Context context, String id) {
+		GraphicsLayer mGraphicsLayer = new GraphicsLayer();
+		POI poi = getPoiFromAPI(id);
+		Map<String, Object> mMap = new HashMap<String, Object>();
+		try {
+			if (poi != null) {
+				String WKT = poi.Geometry;
+				String ID = String.valueOf(poi.Id);
+				String TYPE = String.valueOf(poi.C_ID);
+				String NAME = poi.Name;
+				mMap.put("NAME", NAME);
+				mMap.put("ID", ID);
+				mMap.put("TYPE", TYPE);
+				int imgId = context.getResources().getIdentifier("ic_" + TYPE,
+						"drawable", "com.travelapp");
+				Drawable mDrawable = context.getResources().getDrawable(imgId);
+				PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
+						mDrawable);
+				Point mPoint = (Point) Query.wkt2Geometry(WKT);
+				Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
+				Graphic mGraphic = new Graphic(mPoint, mPictureMarkerSymbol,
+						mMap, 0);
+				mGraphicsLayer.addGraphic(mGraphic);
+			}
+		} catch (Exception e) {
+			Log.e("Query", e.toString());
+		}
+		return mGraphicsLayer;
+
 	}
 
 }
