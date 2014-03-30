@@ -57,6 +57,7 @@ public class RouteDetailActivity extends Activity {
 	List<Route> mList;
 	Query mQuery;
 	String mPOIs;
+	String mRouteTitleText;
 	int mRouteID;
 	static String TAG = "RouteDetailActivity";
 
@@ -119,7 +120,7 @@ public class RouteDetailActivity extends Activity {
 			int[] mGraphics = mRouteGraphicsLayer.getGraphicIDs();
 			Graphic mGraphic = mRouteGraphicsLayer.getGraphic(mGraphics[0]);
 			mRoutePOi = (String) mGraphic.getAttributeValue("Detail");
-			mRouteTitle.setText((String) mGraphic.getAttributeValue("Name"));
+			mRouteTitleText = (String) mGraphic.getAttributeValue("Name");
 			mGeometry = mGraphic.getGeometry();
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
@@ -339,7 +340,7 @@ public class RouteDetailActivity extends Activity {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-
+			mRouteTitle.setText(mRouteTitleText);
 		}
 
 	}
