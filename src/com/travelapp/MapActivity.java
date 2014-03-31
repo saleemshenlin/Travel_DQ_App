@@ -25,7 +25,7 @@ import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.Point;
 import com.esri.core.map.Graphic;
 
-
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class MapActivity extends Activity {
 	private ImageView mBackImageView;
