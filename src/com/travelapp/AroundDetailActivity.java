@@ -52,7 +52,7 @@ public class AroundDetailActivity extends Activity {
 	private Bundle mBundle;
 	private Resources mResources;
 	private ProgressBar mProgressBar;
-	//private Query mQuery;
+	private Query mQuery;
 	private Cursor mItemCursor;
 
 	int mPoiId;
@@ -142,7 +142,7 @@ public class AroundDetailActivity extends Activity {
 			}
 		});
 
-		//setmItemCursor(mQuery.queryAroundByType("1"));
+		setmItemCursor(mQuery.queryAroundByType("1"));
 	}
 
 	private ArrayList<QueryListItem> json2ArrayList(JsonParser jsonParser) {
