@@ -28,12 +28,10 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.Log;
 
 import com.esri.android.map.GraphicsLayer;
@@ -49,13 +47,7 @@ import com.esri.core.symbol.PictureMarkerSymbol;
 import com.esri.core.symbol.SimpleLineSymbol;
 
 public class Query {
-	/**
-	 * 用于实例化类EventProvider
-	 */
-	private PoisProvider mPoisProvider = new PoisProvider();
-	private PoiProvider mPoiProvider = new PoiProvider();
-	private RouteProvider mRouteProvider = new RouteProvider();
-	Cursor mItemCursor = null;
+	
 
 	/**
 	 * 用于设置查询的排序条件<br>
@@ -70,37 +62,34 @@ public class Query {
 	}
 
 	/**
-	 * 用于Event根据查询类型设置查询条件<br>
-	 * 类型 0 学术讲座 1 电影演出 2 精品课程 3 我关注的<br>
-	 * 时间设置为一周,从查询当天开始算<br>
-	 * 
-	 * @param intIndex
-	 *            查询类型
-	 * @return String 查询条件
+	 * // * 用于Event根据查询类型设置查询条件<br>
+	 * // * 类型 0 学术讲座 1 电影演出 2 精品课程 3 我关注的<br>
+	 * // * 时间设置为一周,从查询当天开始算<br>
+	 * // * // * @param intIndex // * 查询类型 // * @return String 查询条件 //
 	 */
-	public String getSectionViaType(int intIndex) {
-		String strSQL;
-		switch (intIndex) {
-		case 0:
-			strSQL = "";
-			return strSQL;
-		case 1:
-			strSQL = PoiDB.C_C_ID + " = '01'";
-			return strSQL;
-		case 2:
-			strSQL = PoiDB.C_C_ID + " = '02'";
-			return strSQL;
-		case 3:
-			strSQL = PoiDB.C_C_ID + " = '03'";
-			return strSQL;
-		case 4:
-			strSQL = PoiDB.C_C_ID + " = '04'";
-			return strSQL;
-		default:
-			return null;
-		}
-	}
-
+	// public String getSectionViaType(int intIndex) {
+	// String strSQL;
+	// switch (intIndex) {
+	// case 0:
+	// strSQL = "";
+	// return strSQL;
+	// case 1:
+	// strSQL = PoiDB.C_C_ID + " = '01'";
+	// return strSQL;
+	// case 2:
+	// strSQL = PoiDB.C_C_ID + " = '02'";
+	// return strSQL;
+	// case 3:
+	// strSQL = PoiDB.C_C_ID + " = '03'";
+	// return strSQL;
+	// case 4:
+	// strSQL = PoiDB.C_C_ID + " = '04'";
+	// return strSQL;
+	// default:
+	// return null;
+	// }
+	// }
+	//
 	public static Geometry wkt2Geometry(String wkt) {
 		Geometry geo = null;
 		if (wkt == null || wkt == "") {
@@ -158,180 +147,181 @@ public class Query {
 		}
 		return path;
 	}
-
-	public GraphicsLayer getPoisByType(Context context, int type) {
-		GraphicsLayer mGraphicsLayer = new GraphicsLayer();
-		String queryByType = getSectionViaType(type);
-		mItemCursor = mPoisProvider.query(PoisProvider.CONTENT_URI, null,
-				queryByType, null, this.getSortOrder(PoiDB.C_ID));
-		Map<String, Object> mMap = new HashMap<String, Object>();
-
-		try {
-			mItemCursor.moveToFirst();
-			while (mItemCursor.moveToNext()) {
-				String WKT = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_SHAPE));
-				String ID = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_ID));
-				String TYPE = ID.substring(0, 1);
-				String NAME = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_NAME));
-				mMap.put("NAME", NAME);
-				mMap.put("ID", ID);
-				int imgId = context.getResources().getIdentifier("ic_" + TYPE,
-						"drawable", "com.travelapp");
-				Drawable mDrawable = context.getResources().getDrawable(imgId);
-				PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
-						mDrawable);
-				Point mPoint = (Point) Query.wkt2Geometry(WKT);
-				Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
-				Graphic mGraphic = new Graphic(mPoint, mPictureMarkerSymbol,
-						mMap, 0);
-				mGraphicsLayer.addGraphic(mGraphic);
-			}
-		} catch (Exception e) {
-			Log.e("Query", e.toString());
-		} finally {
-			if (mItemCursor != null) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
-		}
-		return mGraphicsLayer;
-
-	}
-
-	public GraphicsLayer getPoisById(Context context, String id) {
-		GraphicsLayer mGraphicsLayer = new GraphicsLayer();
-		final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
-				+ id);
-		mItemCursor = mPoisProvider.query(queryUri, null, null, null, null);
-		Map<String, Object> mMap = new HashMap<String, Object>();
-		try {
-			if (mItemCursor.moveToFirst()) {
-				String WKT = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_SHAPE));
-				String ID = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_ID));
-				String TYPE = ID.substring(0, 1);
-				String NAME = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_NAME));
-				mMap.put("NAME", NAME);
-				mMap.put("ID", ID);
-				int imgId = context.getResources().getIdentifier("ic_" + TYPE,
-						"drawable", "com.travelapp");
-				Drawable mDrawable = context.getResources().getDrawable(imgId);
-				PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
-						mDrawable);
-				Point mPoint = (Point) Query.wkt2Geometry(WKT);
-				Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
-				Point mNewPoint = new Point(mPoint.getX(),
-						mPoint.getY() - 0.001);
-				Graphic mGraphic = new Graphic(mNewPoint, mPictureMarkerSymbol,
-						mMap, 0);
-				mGraphicsLayer.addGraphic(mGraphic);
-			}
-		} catch (Exception e) {
-			Log.e("Query", e.toString());
-		} finally {
-			if (mItemCursor != null) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
-		}
-		return mGraphicsLayer;
-	}
-
-	public Graphic getPoisByIdInRoute(Context context, String id, int postion) {
-		Graphic mGraphic = null;
-		final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
-				+ id);
-		mItemCursor = mPoisProvider.query(queryUri, null, null, null, null);
-		Map<String, Object> mMap = new HashMap<String, Object>();
-		try {
-			if (mItemCursor.moveToFirst()) {
-				String WKT = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_SHAPE));
-				String NAME = mItemCursor.getString(mItemCursor
-						.getColumnIndex(PoiDB.C_NAME));
-				mMap.put("NAME", NAME);
-				mMap.put("POSTION", "num_" + postion);
-				int imgId = context.getResources().getIdentifier(
-						"num_" + postion, "drawable", "com.travelapp");
-				Drawable mDrawable = context.getResources().getDrawable(imgId);
-				PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
-						mDrawable);
-				Point mPoint = (Point) Query.wkt2Geometry(WKT);
-				Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
-				Point mNewPoint = new Point(mPoint.getX(), mPoint.getY() + 200);
-				mGraphic = new Graphic(mNewPoint, mPictureMarkerSymbol, mMap, 0);
-			}
-		} catch (Exception e) {
-			Log.e("Query", e.toString());
-		} finally {
-			if (mItemCursor != null) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
-		}
-		return mGraphic;
-	}
-
-	public Cursor getPoiByType(int type) {
-		try {
-			mItemCursor = mPoiProvider.query(PoiProvider.CONTENT_URI, null,
-					getSectionViaType(type), null, getSortOrder(PoiDB.C_ID));
-		} catch (Exception e) {
-			Log.e("Query", e.toString());
-		} finally {
-			if (mItemCursor.isClosed()) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
-		}
-		return mItemCursor;
-	}
-
-	public Cursor getPoiById(String id) {
-		final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
-				+ id);
-		try {
-			mItemCursor = mPoiProvider.query(queryUri, null, null, null, null);
-		} catch (Exception e) {
-			Log.e("Query", e.toString());
-		} finally {
-			if (mItemCursor.isClosed()) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
-		}
-		return mItemCursor;
-	}
-
-	public Cursor getRouteById(int id) {
-		final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
-				+ id);
-		try {
-			mItemCursor = mRouteProvider
-					.query(queryUri, null, null, null, null);
-		} catch (Exception e) {
-			Log.e("Query", e.toString());
-		} finally {
-			if (mItemCursor.isClosed()) {
-				mItemCursor.close();
-			}
-			TravelApplication.getPoiDB().closeDatabase();
-		}
-		return mItemCursor;
-	}
-
-	public Cursor queryAroundByType(String type) {
-		final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
-				+ type);
-		mPoiProvider.query(queryUri, null, null, null, null);
-		mPoisProvider.query(queryUri, null, null, null, null);
-		return mItemCursor;
-	}
+	//
+	// public GraphicsLayer getPoisByType(Context context, int type) {
+	// GraphicsLayer mGraphicsLayer = new GraphicsLayer();
+	// String queryByType = getSectionViaType(type);
+	// mItemCursor = mPoisProvider.query(PoisProvider.CONTENT_URI, null,
+	// queryByType, null, this.getSortOrder(PoiDB.C_ID));
+	// Map<String, Object> mMap = new HashMap<String, Object>();
+	//
+	// try {
+	// mItemCursor.moveToFirst();
+	// while (mItemCursor.moveToNext()) {
+	// String WKT = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_SHAPE));
+	// String ID = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_ID));
+	// String TYPE = ID.substring(0, 1);
+	// String NAME = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_NAME));
+	// mMap.put("NAME", NAME);
+	// mMap.put("ID", ID);
+	// int imgId = context.getResources().getIdentifier("ic_" + TYPE,
+	// "drawable", "com.travelapp");
+	// Drawable mDrawable = context.getResources().getDrawable(imgId);
+	// PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
+	// mDrawable);
+	// Point mPoint = (Point) Query.wkt2Geometry(WKT);
+	// Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
+	// Graphic mGraphic = new Graphic(mPoint, mPictureMarkerSymbol,
+	// mMap, 0);
+	// mGraphicsLayer.addGraphic(mGraphic);
+	// }
+	// } catch (Exception e) {
+	// Log.e("Query", e.toString());
+	// } finally {
+	// if (mItemCursor != null) {
+	// mItemCursor.close();
+	// }
+	// TravelApplication.getPoiDB().closeDatabase();
+	// }
+	// return mGraphicsLayer;
+	//
+	// }
+	//
+	// public GraphicsLayer getPoisById(Context context, String id) {
+	// GraphicsLayer mGraphicsLayer = new GraphicsLayer();
+	// final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
+	// + id);
+	// mItemCursor = mPoisProvider.query(queryUri, null, null, null, null);
+	// Map<String, Object> mMap = new HashMap<String, Object>();
+	// try {
+	// if (mItemCursor.moveToFirst()) {
+	// String WKT = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_SHAPE));
+	// String ID = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_ID));
+	// String TYPE = ID.substring(0, 1);
+	// String NAME = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_NAME));
+	// mMap.put("NAME", NAME);
+	// mMap.put("ID", ID);
+	// int imgId = context.getResources().getIdentifier("ic_" + TYPE,
+	// "drawable", "com.travelapp");
+	// Drawable mDrawable = context.getResources().getDrawable(imgId);
+	// PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
+	// mDrawable);
+	// Point mPoint = (Point) Query.wkt2Geometry(WKT);
+	// Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
+	// Point mNewPoint = new Point(mPoint.getX(),
+	// mPoint.getY() - 0.001);
+	// Graphic mGraphic = new Graphic(mNewPoint, mPictureMarkerSymbol,
+	// mMap, 0);
+	// mGraphicsLayer.addGraphic(mGraphic);
+	// }
+	// } catch (Exception e) {
+	// Log.e("Query", e.toString());
+	// } finally {
+	// if (mItemCursor != null) {
+	// mItemCursor.close();
+	// }
+	// TravelApplication.getPoiDB().closeDatabase();
+	// }
+	// return mGraphicsLayer;
+	// }
+	//
+	// public Graphic getPoisByIdInRoute(Context context, String id, int
+	// postion) {
+	// Graphic mGraphic = null;
+	// final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
+	// + id);
+	// mItemCursor = mPoisProvider.query(queryUri, null, null, null, null);
+	// Map<String, Object> mMap = new HashMap<String, Object>();
+	// try {
+	// if (mItemCursor.moveToFirst()) {
+	// String WKT = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_SHAPE));
+	// String NAME = mItemCursor.getString(mItemCursor
+	// .getColumnIndex(PoiDB.C_NAME));
+	// mMap.put("NAME", NAME);
+	// mMap.put("POSTION", "num_" + postion);
+	// int imgId = context.getResources().getIdentifier(
+	// "num_" + postion, "drawable", "com.travelapp");
+	// Drawable mDrawable = context.getResources().getDrawable(imgId);
+	// PictureMarkerSymbol mPictureMarkerSymbol = new PictureMarkerSymbol(
+	// mDrawable);
+	// Point mPoint = (Point) Query.wkt2Geometry(WKT);
+	// Log.d("Query", mPoint.getX() + ";" + mPoint.getY());
+	// Point mNewPoint = new Point(mPoint.getX(), mPoint.getY() + 200);
+	// mGraphic = new Graphic(mNewPoint, mPictureMarkerSymbol, mMap, 0);
+	// }
+	// } catch (Exception e) {
+	// Log.e("Query", e.toString());
+	// } finally {
+	// if (mItemCursor != null) {
+	// mItemCursor.close();
+	// }
+	// TravelApplication.getPoiDB().closeDatabase();
+	// }
+	// return mGraphic;
+	// }
+	//
+	// public Cursor getPoiByType(int type) {
+	// try {
+	// mItemCursor = mPoiProvider.query(PoiProvider.CONTENT_URI, null,
+	// getSectionViaType(type), null, getSortOrder(PoiDB.C_ID));
+	// } catch (Exception e) {
+	// Log.e("Query", e.toString());
+	// } finally {
+	// if (mItemCursor.isClosed()) {
+	// mItemCursor.close();
+	// }
+	// TravelApplication.getPoiDB().closeDatabase();
+	// }
+	// return mItemCursor;
+	// }
+	//
+	// public Cursor getPoiById(String id) {
+	// final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
+	// + id);
+	// try {
+	// mItemCursor = mPoiProvider.query(queryUri, null, null, null, null);
+	// } catch (Exception e) {
+	// Log.e("Query", e.toString());
+	// } finally {
+	// if (mItemCursor.isClosed()) {
+	// mItemCursor.close();
+	// }
+	// TravelApplication.getPoiDB().closeDatabase();
+	// }
+	// return mItemCursor;
+	// }
+	//
+	// public Cursor getRouteById(int id) {
+	// final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
+	// + id);
+	// try {
+	// mItemCursor = mRouteProvider
+	// .query(queryUri, null, null, null, null);
+	// } catch (Exception e) {
+	// Log.e("Query", e.toString());
+	// } finally {
+	// if (mItemCursor.isClosed()) {
+	// mItemCursor.close();
+	// }
+	// TravelApplication.getPoiDB().closeDatabase();
+	// }
+	// return mItemCursor;
+	// }
+	//
+	// public Cursor queryAroundByType(String type) {
+	//		final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
+//				+ type);
+//		mPoiProvider.query(queryUri, null, null, null, null);
+//		mPoisProvider.query(queryUri, null, null, null, null);
+//		return mItemCursor;
+//	}
 
 	/*
 	 * 从Web API获取数据POis,通过json转换成arraylist

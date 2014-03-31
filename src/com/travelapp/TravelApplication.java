@@ -52,16 +52,10 @@ public class TravelApplication extends Application {
 	public static WeiboAuth mWeiboAuth;
 
 	private BDLocationListener mBDListener = (BDLocationListener) new MyLocationListener();
-	private static PoiDB mPoiDB;
 	public static File imgCache;
 
 	public static Context getContext() {
 		return CONTEXT;
-	}
-
-	public static PoiDB getPoiDB() {
-		mPoiDB = new PoiDB(getContext());
-		return mPoiDB;
 	}
 
 	/**

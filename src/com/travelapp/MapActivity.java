@@ -35,6 +35,7 @@ public class MapActivity extends Activity {
 	private ArcGISLocalTiledLayer mLocalTiledLayer;
 	private String mFunction = "POIS";
 	private int mType = 0;
+	private int mPoiId = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +148,7 @@ public class MapActivity extends Activity {
 					break;
 				}
 			} else {
-				final int mPoiId = mBundle.getInt("ID");
+				mPoiId = mBundle.getInt("ID");
 				switch (Integer.parseInt(String.valueOf(mType).substring(0, 1))) {
 				case 1:
 					mBackImageView
@@ -265,7 +266,7 @@ public class MapActivity extends Activity {
 					type);
 		} else {
 			mLayer = mQuery.getPoiLocation(TravelApplication.getContext(),
-					String.valueOf(type));
+					String.valueOf(mPoiId));
 		}
 		return mLayer;
 
