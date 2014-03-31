@@ -25,6 +25,8 @@ import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.Point;
 import com.esri.core.map.Graphic;
 
+
+
 public class MapActivity extends Activity {
 	private ImageView mBackImageView;
 	private MapView mMap = null;

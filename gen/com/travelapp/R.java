@@ -16,7 +16,152 @@ public final class R {
         public static final int anim_popup_enter=0x7f040004;
         public static final int anim_popup_exit=0x7f040005;
     }
+    public static final class array {
+        public static final int colors=0x7f070000;
+        public static final int gplus_colors=0x7f070001;
+        public static final int pocket_background_colors=0x7f070003;
+        public static final int pocket_bar_colors=0x7f070002;
+    }
     public static final class attr {
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int spbStyle=0x7f010000;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int spb_background=0x7f01000d;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_color=0x7f010001;
+        /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+         */
+        public static final int spb_colors=0x7f01000b;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_generate_background_with_colors=0x7f01000e;
+        /** <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>spb_interpolator_accelerate</code></td><td>0</td><td></td></tr>
+<tr><td><code>spb_interpolator_linear</code></td><td>1</td><td></td></tr>
+<tr><td><code>spb_interpolator_acceleratedecelerate</code></td><td>2</td><td></td></tr>
+<tr><td><code>spb_interpolator_decelerate</code></td><td>3</td><td></td></tr>
+</table>
+         */
+        public static final int spb_interpolator=0x7f010008;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_mirror_mode=0x7f01000a;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_progressiveStart_activated=0x7f01000c;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_progressiveStart_speed=0x7f010006;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_progressiveStop_speed=0x7f010007;
+        /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_reversed=0x7f010009;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_sections_count=0x7f010004;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_speed=0x7f010005;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_stroke_separator_length=0x7f010003;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int spb_stroke_width=0x7f010002;
+    }
+    public static final class bool {
+        public static final int spb_default_mirror_mode=0x7f0c0001;
+        public static final int spb_default_progressiveStart_activated=0x7f0c0002;
+        public static final int spb_default_reversed=0x7f0c0000;
+    }
+    public static final class color {
+        public static final int gplus_color_1=0x7f080004;
+        public static final int gplus_color_2=0x7f080005;
+        public static final int gplus_color_3=0x7f080006;
+        public static final int gplus_color_4=0x7f080007;
+        public static final int holo_blue_dark=0x7f080008;
+        public static final int holo_green_dark=0x7f08000a;
+        public static final int holo_purple_dark=0x7f08000b;
+        public static final int holo_red_dark=0x7f08000c;
+        public static final int holo_yellow_dark=0x7f080009;
+        public static final int pocket_color_1=0x7f080000;
+        public static final int pocket_color_2=0x7f080001;
+        public static final int pocket_color_3=0x7f080002;
+        public static final int pocket_color_4=0x7f080003;
+        public static final int spb_default_color=0x7f08000d;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -25,8 +170,10 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f060000;
-        public static final int activity_vertical_margin=0x7f060001;
+        public static final int activity_horizontal_margin=0x7f090002;
+        public static final int activity_vertical_margin=0x7f090003;
+        public static final int spb_default_stroke_separator_length=0x7f090000;
+        public static final int spb_default_stroke_width=0x7f090001;
     }
     public static final class drawable {
         public static final int bg_bottom_corners=0x7f020000;
@@ -89,63 +236,71 @@ public final class R {
         public static final int num_8=0x7f020039;
     }
     public static final class id {
-        public static final int RelListView=0x7f0a001e;
-        public static final int action_settings=0x7f0a0038;
-        public static final int btnShareWB=0x7f0a002b;
-        public static final int btnShareWX=0x7f0a002c;
-        public static final int gridHome=0x7f0a0015;
-        public static final int imgCallout=0x7f0a002e;
-        public static final int imgCalloutMore=0x7f0a0030;
-        public static final int imgCamera=0x7f0a0028;
-        public static final int imgDayMore=0x7f0a0026;
-        public static final int imgDayOne=0x7f0a0024;
-        public static final int imgDayTwe=0x7f0a0025;
-        public static final int imgItem=0x7f0a0009;
-        public static final int imgItemAround=0x7f0a001b;
-        public static final int imgItemFun=0x7f0a001a;
-        public static final int imgItemHotel=0x7f0a0018;
-        public static final int imgItemMap=0x7f0a0016;
-        public static final int imgItemRest=0x7f0a0019;
-        public static final int imgItemRoute=0x7f0a001c;
-        public static final int imgItemScenic=0x7f0a0017;
-        public static final int imgItemSocial=0x7f0a001d;
-        public static final int imgLeft=0x7f0a0029;
-        public static final int imgListBack=0x7f0a0001;
-        public static final int imgListMap=0x7f0a0003;
-        public static final int imgPalce=0x7f0a0033;
-        public static final int imgRight=0x7f0a002a;
-        public static final int imgRouteRow=0x7f0a0031;
-        public static final int info_wv=0x7f0a0037;
-        public static final int linActionbar=0x7f0a0000;
-        public static final int linContent=0x7f0a0027;
-        public static final int linFunAround=0x7f0a0007;
-        public static final int linHotelAround=0x7f0a0005;
-        public static final int linRestAround=0x7f0a0006;
-        public static final int linScenicAround=0x7f0a0004;
-        public static final int linTime=0x7f0a000b;
-        public static final int listPoi=0x7f0a001f;
-        public static final int listRoute=0x7f0a0023;
-        public static final int map=0x7f0a0021;
-        public static final int pbLoad=0x7f0a0020;
-        public static final int prbLoadData=0x7f0a002d;
-        public static final int relDown=0x7f0a0014;
-        public static final int relHomeView=0x7f0a0010;
-        public static final int relUp=0x7f0a0011;
-        public static final int scrollView1=0x7f0a0008;
-        public static final int txtCallout=0x7f0a002f;
-        public static final int txtHomePlace=0x7f0a0012;
-        public static final int txtHomeTitle=0x7f0a0013;
-        public static final int txtItemAbstract=0x7f0a000f;
-        public static final int txtItemAddress=0x7f0a000d;
-        public static final int txtItemPrice=0x7f0a000a;
-        public static final int txtItemTele=0x7f0a000e;
-        public static final int txtItemTime=0x7f0a000c;
-        public static final int txtListTitle=0x7f0a0002;
-        public static final int txtRouteRowTitle=0x7f0a0032;
-        public static final int txtRouteTitle=0x7f0a0022;
-        public static final int txtRowAbstract=0x7f0a0036;
-        public static final int txtRowPrice=0x7f0a0035;
-        public static final int txtRowTitle=0x7f0a0034;
+        public static final int RelListView=0x7f060022;
+        public static final int action_settings=0x7f06003c;
+        public static final int btnShareWB=0x7f06002f;
+        public static final int btnShareWX=0x7f060030;
+        public static final int gridHome=0x7f060019;
+        public static final int imgCallout=0x7f060032;
+        public static final int imgCalloutMore=0x7f060034;
+        public static final int imgCamera=0x7f06002c;
+        public static final int imgDayMore=0x7f06002a;
+        public static final int imgDayOne=0x7f060028;
+        public static final int imgDayTwe=0x7f060029;
+        public static final int imgItem=0x7f06000d;
+        public static final int imgItemAround=0x7f06001f;
+        public static final int imgItemFun=0x7f06001e;
+        public static final int imgItemHotel=0x7f06001c;
+        public static final int imgItemMap=0x7f06001a;
+        public static final int imgItemRest=0x7f06001d;
+        public static final int imgItemRoute=0x7f060020;
+        public static final int imgItemScenic=0x7f06001b;
+        public static final int imgItemSocial=0x7f060021;
+        public static final int imgLeft=0x7f06002d;
+        public static final int imgListBack=0x7f060005;
+        public static final int imgListMap=0x7f060007;
+        public static final int imgPalce=0x7f060037;
+        public static final int imgRight=0x7f06002e;
+        public static final int imgRouteRow=0x7f060035;
+        public static final int info_wv=0x7f06003b;
+        public static final int linActionbar=0x7f060004;
+        public static final int linContent=0x7f06002b;
+        public static final int linFunAround=0x7f06000b;
+        public static final int linHotelAround=0x7f060009;
+        public static final int linRestAround=0x7f06000a;
+        public static final int linScenicAround=0x7f060008;
+        public static final int linTime=0x7f06000f;
+        public static final int listPoi=0x7f060023;
+        public static final int listRoute=0x7f060027;
+        public static final int map=0x7f060025;
+        public static final int pbLoad=0x7f060024;
+        public static final int prbLoadData=0x7f060031;
+        public static final int relDown=0x7f060018;
+        public static final int relHomeView=0x7f060014;
+        public static final int relUp=0x7f060015;
+        public static final int scrollView1=0x7f06000c;
+        public static final int spb_interpolator_accelerate=0x7f060000;
+        public static final int spb_interpolator_acceleratedecelerate=0x7f060002;
+        public static final int spb_interpolator_decelerate=0x7f060003;
+        public static final int spb_interpolator_linear=0x7f060001;
+        public static final int txtCallout=0x7f060033;
+        public static final int txtHomePlace=0x7f060016;
+        public static final int txtHomeTitle=0x7f060017;
+        public static final int txtItemAbstract=0x7f060013;
+        public static final int txtItemAddress=0x7f060011;
+        public static final int txtItemPrice=0x7f06000e;
+        public static final int txtItemTele=0x7f060012;
+        public static final int txtItemTime=0x7f060010;
+        public static final int txtListTitle=0x7f060006;
+        public static final int txtRouteRowTitle=0x7f060036;
+        public static final int txtRouteTitle=0x7f060026;
+        public static final int txtRowAbstract=0x7f06003a;
+        public static final int txtRowPrice=0x7f060039;
+        public static final int txtRowTitle=0x7f060038;
+    }
+    public static final class integer {
+        public static final int spb_default_interpolator=0x7f0a0001;
+        public static final int spb_default_sections_count=0x7f0a0000;
     }
     public static final class layout {
         public static final int activity_aroundlist=0x7f030000;
@@ -163,41 +318,42 @@ public final class R {
         public static final int webalert=0x7f03000c;
     }
     public static final class menu {
-        public static final int main=0x7f090000;
+        public static final int main=0x7f0e0000;
     }
     public static final class string {
-        public static final int action_settings=0x7f070001;
-        public static final int app_cancel=0x7f07000b;
-        public static final int app_name=0x7f070000;
-        public static final int app_ok=0x7f07000a;
-        public static final int baiduak=0x7f070014;
-        public static final int esri_client_id=0x7f07001b;
-        public static final int fun=0x7f07000f;
-        public static final int hello_world=0x7f070002;
-        public static final int hotel=0x7f07000d;
-        public static final int map_address=0x7f070006;
-        public static final int map_url=0x7f070005;
-        public static final int redirect_url=0x7f070009;
-        public static final int request_host=0x7f07001d;
-        public static final int request_url=0x7f07001c;
-        public static final int rest=0x7f07000e;
-        public static final int route_url=0x7f07001e;
-        public static final int scenic=0x7f07000c;
-        public static final int share=0x7f070012;
-        public static final int share_text=0x7f070013;
-        public static final int share_wb=0x7f070011;
-        public static final int share_wx=0x7f070010;
-        public static final int textview=0x7f07001f;
-        public static final int txtHomePlace=0x7f070004;
-        public static final int txtHomeTitle=0x7f070003;
-        public static final int wb_app_id=0x7f070008;
-        public static final int weibosdk_demo_toast_auth_canceled=0x7f070017;
-        public static final int weibosdk_demo_toast_auth_failed=0x7f070016;
-        public static final int weibosdk_demo_toast_auth_success=0x7f070015;
-        public static final int weibosdk_demo_toast_share_canceled=0x7f07001a;
-        public static final int weibosdk_demo_toast_share_failed=0x7f070019;
-        public static final int weibosdk_demo_toast_share_success=0x7f070018;
-        public static final int wx_app_id=0x7f070007;
+        public static final int action_settings=0x7f0b0002;
+        public static final int app_cancel=0x7f0b000c;
+        public static final int app_name=0x7f0b0001;
+        public static final int app_ok=0x7f0b000b;
+        public static final int baiduak=0x7f0b0015;
+        public static final int esri_client_id=0x7f0b001c;
+        public static final int fun=0x7f0b0010;
+        public static final int hello_world=0x7f0b0003;
+        public static final int hotel=0x7f0b000e;
+        public static final int map_address=0x7f0b0007;
+        public static final int map_url=0x7f0b0006;
+        public static final int redirect_url=0x7f0b000a;
+        public static final int request_host=0x7f0b001e;
+        public static final int request_url=0x7f0b001d;
+        public static final int rest=0x7f0b000f;
+        public static final int route_url=0x7f0b001f;
+        public static final int scenic=0x7f0b000d;
+        public static final int share=0x7f0b0013;
+        public static final int share_text=0x7f0b0014;
+        public static final int share_wb=0x7f0b0012;
+        public static final int share_wx=0x7f0b0011;
+        public static final int spb_default_speed=0x7f0b0000;
+        public static final int textview=0x7f0b0020;
+        public static final int txtHomePlace=0x7f0b0005;
+        public static final int txtHomeTitle=0x7f0b0004;
+        public static final int wb_app_id=0x7f0b0009;
+        public static final int weibosdk_demo_toast_auth_canceled=0x7f0b0018;
+        public static final int weibosdk_demo_toast_auth_failed=0x7f0b0017;
+        public static final int weibosdk_demo_toast_auth_success=0x7f0b0016;
+        public static final int weibosdk_demo_toast_share_canceled=0x7f0b001b;
+        public static final int weibosdk_demo_toast_share_failed=0x7f0b001a;
+        public static final int weibosdk_demo_toast_share_success=0x7f0b0019;
+        public static final int wx_app_id=0x7f0b0008;
     }
     public static final class style {
         /** 
@@ -207,11 +363,23 @@ public final class R {
 
 
 
+
+
+
+
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
+
+
+
+
 
 
 
@@ -229,15 +397,271 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f080000;
+        public static final int AppBaseTheme=0x7f0d0000;
         /**  Application theme. 
          */
-        public static final int AppTheme=0x7f080001;
-        public static final int customActionBarStyle=0x7f080003;
-        public static final int splashTheme=0x7f080002;
+        public static final int AppTheme=0x7f0d0001;
+        public static final int GNowProgressBar=0x7f0d0004;
+        public static final int SmoothProgressBar=0x7f0d0005;
+        public static final int customActionBarStyle=0x7f0d0003;
+        public static final int splashTheme=0x7f0d0002;
     }
     public static final class xml {
         public static final int calloutstyle=0x7f050000;
         public static final int data=0x7f050001;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a SmoothProgressBar.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spbStyle com.travelapp:spbStyle}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_background com.travelapp:spb_background}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_color com.travelapp:spb_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_colors com.travelapp:spb_colors}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_generate_background_with_colors com.travelapp:spb_generate_background_with_colors}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_interpolator com.travelapp:spb_interpolator}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_mirror_mode com.travelapp:spb_mirror_mode}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_progressiveStart_activated com.travelapp:spb_progressiveStart_activated}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_progressiveStart_speed com.travelapp:spb_progressiveStart_speed}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_progressiveStop_speed com.travelapp:spb_progressiveStop_speed}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_reversed com.travelapp:spb_reversed}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_sections_count com.travelapp:spb_sections_count}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_speed com.travelapp:spb_speed}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_stroke_separator_length com.travelapp:spb_stroke_separator_length}</code></td><td></td></tr>
+           <tr><td><code>{@link #SmoothProgressBar_spb_stroke_width com.travelapp:spb_stroke_width}</code></td><td></td></tr>
+           </table>
+           @see #SmoothProgressBar_spbStyle
+           @see #SmoothProgressBar_spb_background
+           @see #SmoothProgressBar_spb_color
+           @see #SmoothProgressBar_spb_colors
+           @see #SmoothProgressBar_spb_generate_background_with_colors
+           @see #SmoothProgressBar_spb_interpolator
+           @see #SmoothProgressBar_spb_mirror_mode
+           @see #SmoothProgressBar_spb_progressiveStart_activated
+           @see #SmoothProgressBar_spb_progressiveStart_speed
+           @see #SmoothProgressBar_spb_progressiveStop_speed
+           @see #SmoothProgressBar_spb_reversed
+           @see #SmoothProgressBar_spb_sections_count
+           @see #SmoothProgressBar_spb_speed
+           @see #SmoothProgressBar_spb_stroke_separator_length
+           @see #SmoothProgressBar_spb_stroke_width
+         */
+        public static final int[] SmoothProgressBar = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
+            0x7f010004, 0x7f010005, 0x7f010006, 0x7f010007,
+            0x7f010008, 0x7f010009, 0x7f01000a, 0x7f01000b,
+            0x7f01000c, 0x7f01000d, 0x7f01000e
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spbStyle}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.travelapp:spbStyle
+        */
+        public static final int SmoothProgressBar_spbStyle = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_background}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.travelapp:spb_background
+        */
+        public static final int SmoothProgressBar_spb_background = 13;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_color}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_color
+        */
+        public static final int SmoothProgressBar_spb_color = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_colors}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+          @attr name com.travelapp:spb_colors
+        */
+        public static final int SmoothProgressBar_spb_colors = 11;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_generate_background_with_colors}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_generate_background_with_colors
+        */
+        public static final int SmoothProgressBar_spb_generate_background_with_colors = 14;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_interpolator}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>spb_interpolator_accelerate</code></td><td>0</td><td></td></tr>
+<tr><td><code>spb_interpolator_linear</code></td><td>1</td><td></td></tr>
+<tr><td><code>spb_interpolator_acceleratedecelerate</code></td><td>2</td><td></td></tr>
+<tr><td><code>spb_interpolator_decelerate</code></td><td>3</td><td></td></tr>
+</table>
+          @attr name com.travelapp:spb_interpolator
+        */
+        public static final int SmoothProgressBar_spb_interpolator = 8;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_mirror_mode}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_mirror_mode
+        */
+        public static final int SmoothProgressBar_spb_mirror_mode = 10;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_progressiveStart_activated}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_progressiveStart_activated
+        */
+        public static final int SmoothProgressBar_spb_progressiveStart_activated = 12;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_progressiveStart_speed}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_progressiveStart_speed
+        */
+        public static final int SmoothProgressBar_spb_progressiveStart_speed = 6;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_progressiveStop_speed}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_progressiveStop_speed
+        */
+        public static final int SmoothProgressBar_spb_progressiveStop_speed = 7;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_reversed}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_reversed
+        */
+        public static final int SmoothProgressBar_spb_reversed = 9;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_sections_count}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_sections_count
+        */
+        public static final int SmoothProgressBar_spb_sections_count = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_speed}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_speed
+        */
+        public static final int SmoothProgressBar_spb_speed = 5;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_stroke_separator_length}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_stroke_separator_length
+        */
+        public static final int SmoothProgressBar_spb_stroke_separator_length = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.travelapp.R.attr#spb_stroke_width}
+          attribute's value can be found in the {@link #SmoothProgressBar} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.travelapp:spb_stroke_width
+        */
+        public static final int SmoothProgressBar_spb_stroke_width = 2;
+    };
 }
