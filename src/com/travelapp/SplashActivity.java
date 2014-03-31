@@ -1,11 +1,15 @@
 package com.travelapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Toast;
 
 public class SplashActivity extends Activity {
 	/**
@@ -37,7 +41,7 @@ public class SplashActivity extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case Add_DATA:
-				goHome();
+				addData();
 				break;
 			case GO_HOME:
 				goHome();
@@ -76,6 +80,55 @@ public class SplashActivity extends Activity {
 		SplashActivity.this.finish();
 		SplashActivity.this.overridePendingTransition(
 				R.anim.anim_in_right2left, R.anim.anim_out_left2right);
+	}
+
+	/*
+	 * 用于首次加载数据
+	 */
+	protected void addData() {
+		// TODO Auto-generated method stub
+		new AddData().execute();
+	}
+
+	/**
+	 * 用于更新SharedPreferences，下次启动不用再次引导
+	 */
+	private void setGuided() {
+		SharedPreferences preferences = getSharedPreferences(
+				SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		editor.putBoolean("isFirstIn", false);
+		editor.commit();
+	}
+
+	class AddData extends AsyncTask<String, String, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			Query mQuery = new Query();
+			mQuery.getPoisFromWebAPI(0);
+			return null;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			Toast.makeText(SplashActivity.this, "首次加载数据...>>>>",
+					Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Toast.makeText(SplashActivity.this, "完成加载数据！", Toast.LENGTH_SHORT)
+					.show();
+			setGuided();
+			goHome();
+		}
+
 	}
 
 }
