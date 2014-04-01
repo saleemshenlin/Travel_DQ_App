@@ -13,6 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * 景点poi的详细页
+ * 
+ * @author saleemshenlin <br>
+ *         通过"~/api/poi/{id}"进行查询<br>
+ *         将查询的结果进行显示，图片，名称，门票，开放时间，地址，电话和简介。
+ * 
+ */
 public class ScenicDetailActivity extends Activity {
 	private ImageView mBackImageView;
 	private ImageView mItemImageView;
@@ -184,6 +192,14 @@ public class ScenicDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 后台线程查询poi详细信息
+	 * 
+	 * @author saleemshenlin<br>
+	 *         建立后台线程通过web api获取poi详细信息，更新页面
+	 * @param 传入poi的id信息
+	 * 
+	 */
 	class getPOI extends AsyncTask<String, String, POI> {
 
 		@Override
@@ -202,7 +218,7 @@ public class ScenicDetailActivity extends Activity {
 				if (mPoi != null) {
 					mTitleTextView.setText(mPoi.Name);
 					mItemPrice.setText("门票：" + mPoi.Ticket);
-					mItemTime.setText("时间：" + mPoi.Time);
+					mItemTime.setText("开放时间：" + mPoi.Time);
 					mItemAddress.setText("地址：" + mPoi.Address);
 					mItemTele.setText("电话：" + mPoi.Tele);
 					mItemAbstract.setText("简介：" + mPoi.Abstract);

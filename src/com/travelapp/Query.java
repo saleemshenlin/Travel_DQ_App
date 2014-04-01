@@ -46,20 +46,26 @@ import com.esri.core.map.Graphic;
 import com.esri.core.symbol.PictureMarkerSymbol;
 import com.esri.core.symbol.SimpleLineSymbol;
 
+/**
+ * 查询类
+ * 
+ * @author saleemshenlin<br>
+ *         包含应用所有有关查询的方法类集合<br>
+ * 
+ */
 public class Query {
-	
 
-	/**
-	 * 用于设置查询的排序条件<br>
-	 * 按Event发生时间的升序排序 <br>
-	 * 
-	 * @return String 排序条件
-	 */
-	public String getSortOrder(String mString) {
-		String strSQL = null;
-		strSQL = mString + " ASC";
-		return strSQL;
-	}
+	// /**
+	// * 用于设置查询的排序条件<br>
+	// * 按Event发生时间的升序排序 <br>
+	// *
+	// * @return String 排序条件
+	// */
+	// public String getSortOrder(String mString) {
+	// String strSQL = null;
+	// strSQL = mString + " ASC";
+	// return strSQL;
+	// }
 
 	/**
 	 * // * 用于Event根据查询类型设置查询条件<br>
@@ -90,6 +96,13 @@ public class Query {
 	// }
 	// }
 	//
+	/**
+	 * 将WKT形式的空间信息转换成Esri的Geometry
+	 * 
+	 * @param wkt
+	 *            传入WKT形式的空间信息
+	 * @return 返回该Geometry形式的空间信息
+	 */
 	public static Geometry wkt2Geometry(String wkt) {
 		Geometry geo = null;
 		if (wkt == null || wkt == "") {
@@ -115,6 +128,15 @@ public class Query {
 		return geo;
 	}
 
+	/**
+	 * 将WKT形式的空间信息转换成Esri的Geometry的具体方法
+	 * 
+	 * @param multipath
+	 *            经纬度坐标
+	 * @param type
+	 *            空间信息的类型点、线还是面
+	 * @return 返回该Geometry形式的空间信息
+	 */
 	private static Geometry parseWKT(String multipath, String type) {
 		String subMultipath = multipath.substring(1, multipath.length() - 1);
 		String[] paths;
@@ -147,6 +169,7 @@ public class Query {
 		}
 		return path;
 	}
+
 	//
 	// public GraphicsLayer getPoisByType(Context context, int type) {
 	// GraphicsLayer mGraphicsLayer = new GraphicsLayer();
@@ -316,15 +339,20 @@ public class Query {
 	// }
 	//
 	// public Cursor queryAroundByType(String type) {
-	//		final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
-//				+ type);
-//		mPoiProvider.query(queryUri, null, null, null, null);
-//		mPoisProvider.query(queryUri, null, null, null, null);
-//		return mItemCursor;
-//	}
+	// final Uri queryUri = Uri.parse(PoiProvider.CONTENT_URI.toString() + "/"
+	// + type);
+	// mPoiProvider.query(queryUri, null, null, null, null);
+	// mPoisProvider.query(queryUri, null, null, null, null);
+	// return mItemCursor;
+	// }
 
-	/*
-	 * 从Web API获取数据POis,通过json转换成arraylist
+	/**
+	 * 从Web API获取数据多个poi(poi列表),通过json转换成arraylist
+	 * 
+	 * @param type
+	 *            传入要查询的类型<br>
+	 *            0:所有;1:景点;2:住宿;3:餐饮;4:购物;
+	 * @return ArrayList<POI>poi列表
 	 */
 	public ArrayList<POI> getPoisFromWebAPI(int type) {
 		ArrayList<POI> mQueryList = new ArrayList<POI>();
@@ -348,8 +376,12 @@ public class Query {
 		return mQueryList;
 	}
 
-	/*
-	 * 获取单个POI的信息，直接保存成POI类
+	/**
+	 * 从Web API获取数据单个poi(poi详细),返回POI类
+	 * 
+	 * @param id
+	 *            poi的id
+	 * @return POI类的poi信息
 	 */
 	public POI getPoiFromAPI(String id) {
 		POI mPoi = new POI();
@@ -420,6 +452,14 @@ public class Query {
 		return mPoi;
 	}
 
+	/**
+	 * 根据poi查询类别，生成相应的查询url
+	 * 
+	 * @param type
+	 *            传入要查询的类型<br>
+	 *            0:所有;1:景点;2:住宿;3:餐饮;4:购物;
+	 * @return web api查询的部分url
+	 */
 	private String getPoiType(int type) {
 		String strSQL = "";
 		if (type > 0 && type <= 4) {
@@ -428,8 +468,12 @@ public class Query {
 		return strSQL;
 	}
 
-	/*
-	 * 将Json转换成ArrayList
+	/**
+	 * 将json格式的查询结果转换成ArrayList<POI>形式
+	 * 
+	 * @param jsonParser
+	 *            json格式的查询结果
+	 * @return ArrayList<POI>的poi列表
 	 */
 	private ArrayList<POI> json2ArrayList(JsonParser jsonParser) {
 		ArrayList<POI> queryList = new ArrayList<POI>();
@@ -495,8 +539,12 @@ public class Query {
 		return queryList;
 	}
 
-	/*
-	 * 根据连接获取Json
+	/**
+	 * 通过"~/api/poi"形式的web api获取json格式数据
+	 * 
+	 * @param url
+	 *            传入查询url
+	 * @return json格式数据
 	 */
 	private String getJsonFromWebAPI(String url) {
 		String result = "";
@@ -522,8 +570,13 @@ public class Query {
 		return result;
 	}
 
-	/*
-	 * 保存图片到文件夹
+	/**
+	 * 根据poi信息中的图片查询连接，获取图片，并缓存到的本地。<br>
+	 * 文件名进行md5加密
+	 * 
+	 * @param url
+	 *            图片查询连接
+	 * @return 图片在本地的文件名,方便调用
 	 */
 	public static String returnBitMap(String url) {
 		String name = MD5.getMD5(url) + ".jpg";
@@ -559,8 +612,11 @@ public class Query {
 		return name;
 	}
 
-	/*
-	 * 图片保存地址MD5加密
+	/**
+	 * md5加密
+	 * 
+	 * @author saleemshenlin
+	 * 
 	 */
 	public static class MD5 {
 
@@ -586,8 +642,17 @@ public class Query {
 		}
 	}
 
-	/*
+	/**
+	 * 加载本地缓存中的图片<br>
 	 * 解决Android加载图片时内存溢出的问题
+	 * 
+	 * @param context
+	 *            上下文
+	 * @param path
+	 *            图片路径
+	 * @param size
+	 *            对于图片进行缩放的大小
+	 * @return
 	 */
 	public static Bitmap readBitmapFromFile(Context context, String path,
 			int size) {
@@ -607,8 +672,14 @@ public class Query {
 		return BitmapFactory.decodeStream(is, null, opt);
 	}
 
-	/*
+	/**
 	 * 获取多个poi的位置
+	 * 
+	 * @param context
+	 *            上下文
+	 * @param type
+	 *            poi的类型
+	 * @return 加载多个poi的GraphicsLayer层
 	 */
 	public GraphicsLayer getPoisLocation(Context context, int type) {
 		GraphicsLayer mGraphicsLayer = new GraphicsLayer();
@@ -641,8 +712,14 @@ public class Query {
 
 	}
 
-	/*
-	 * 获取当个poi位置
+	/**
+	 * 获取多单个poi的位置
+	 * 
+	 * @param context
+	 *            上下文
+	 * @param id
+	 *            poi的id
+	 * @return 加载单个poi的GraphicsLayer层
 	 */
 	public GraphicsLayer getPoiLocation(Context context, String id) {
 		GraphicsLayer mGraphicsLayer = new GraphicsLayer();
@@ -675,8 +752,12 @@ public class Query {
 
 	}
 
-	/*
-	 * 从url获取路径json，然后转换成GraphicsLayer
+	/**
+	 * 根据获取路径的url获取json格式结果，然后转换成GraphicsLayer
+	 * 
+	 * @param id
+	 *            路径id
+	 * @return 加载路径的GraphicsLayer层
 	 */
 	public GraphicsLayer getRouteByIdFromJson(String id) {
 		GraphicsLayer mGraphicsLayer = new GraphicsLayer();

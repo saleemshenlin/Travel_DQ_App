@@ -39,6 +39,15 @@ import com.esri.core.geometry.Point;
 import com.esri.core.map.Graphic;
 import com.esri.core.symbol.PictureMarkerSymbol;
 
+/**
+ * 路径详细页
+ * @author saleemshenlin
+ * 用于显示路径的详细信息
+ * 路径地图
+ * 路径名称
+ * 景点，点击景点
+ * 
+ */
 public class RouteDetailActivity extends Activity {
 	ImageView mBackImageView;
 	TextView mTitleTextView;

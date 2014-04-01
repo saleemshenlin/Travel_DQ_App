@@ -20,13 +20,22 @@ import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.MapView;
 import com.esri.android.map.ags.ArcGISLocalTiledLayer;
 import com.esri.android.map.event.OnSingleTapListener;
-import com.esri.android.map.event.OnZoomListener;
 import com.esri.core.geometry.Envelope;
 import com.esri.core.geometry.Point;
 import com.esri.core.map.Graphic;
 
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
-
+/**
+ * 地图页面
+ * 
+ * @author saleemshenlin <br>
+ *         用于根据传入的不同参数显示相应的地图<br>
+ *         参数:<br>
+ *         mFunction表示传入多个poi还是当个poi<br>
+ *         POIS代表多个poi<br>
+ *         mType表示poi的类型<br>
+ *         mPoiId表示poi的id<br>
+ * 
+ */
 public class MapActivity extends Activity {
 	private ImageView mBackImageView;
 	private MapView mMap = null;
@@ -259,13 +268,20 @@ public class MapActivity extends Activity {
 
 	}
 
-	public GraphicsLayer addGraphicToLayer(String function, int type) {
+	/**
+	 * 通过wei api查询或GraphicLayer
+	 * 
+	 * @param function
+	 *            表示是多个poi（POIS）还是当个poi
+	 * @return 返回Esri的GraphicsLayer类，用于加载到底图上
+	 */
+	public GraphicsLayer addGraphicLayer(String function) {
 		GraphicsLayer mLayer = new GraphicsLayer();
 		// create a simple marker symbol to be used by our graphic
 		mQuery = new Query();
 		if (function.equals("POIS")) {
 			mLayer = mQuery.getPoisLocation(TravelApplication.getContext(),
-					type);
+					mType);
 		} else {
 			mLayer = mQuery.getPoiLocation(TravelApplication.getContext(),
 					String.valueOf(mPoiId));
@@ -287,6 +303,16 @@ public class MapActivity extends Activity {
 
 	}
 
+	/**
+	 * 后台线程加载地图类
+	 * 
+	 * @author saleemshenlin<br>
+	 *         首先加载离线底图mLocalTiledLayer<br>
+	 *         设置地图范围和级别(setExtent，setMinScale，setMaxScale) <br>
+	 *         加载poi的mGraphicsLayer<br>
+	 *         设置点击popup(setOnSingleTapListener)<br>
+	 *         点击popup能够进入poi的详细页<br>
+	 */
 	class AddMap extends AsyncTask<String, String, String> {
 
 		@Override
@@ -299,32 +325,8 @@ public class MapActivity extends Activity {
 					14203165.9874021, 6017039.55107995), 0);
 			mMap.setMinScale(4622324.434309);
 			mMap.setMaxScale(72223.819286);
-			mMap.setOnZoomListener(new OnZoomListener() {
-
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void preAction(float pivotX, float pivotY, double factor) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void postAction(float pivotX, float pivotY, double factor) {
-					// TODO Auto-generated method stub
-					double mapscale = mMap.getScale();
-					if (mapscale < 1155581.108577) {
-						mMap.setMapBackground(0xffffffff, Color.WHITE, 0, 0);
-						mMap.addLayer(mLocalTiledLayer);
-						mMap.addLayer(mGraphicsLayer);
-					}
-				}
-			});
 			mMap.addLayer(mLocalTiledLayer);
-			mGraphicsLayer = addGraphicToLayer(mFunction, mType);
+			mGraphicsLayer = addGraphicLayer(mFunction);
 			mMap.addLayer(mGraphicsLayer);
 			mMap.setOnSingleTapListener(new OnSingleTapListener() {
 

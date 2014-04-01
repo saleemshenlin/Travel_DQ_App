@@ -6,6 +6,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+/**
+ * 获取weibo sdk许可
+ * 
+ * @author saleemshenlin<br>
+ *         用于调用weiboSDK,获取许可。
+ * 
+ */
 public class AccessTokenKeeper {
 	private static final String PREFERENCES_NAME = "com_travelapp";
 

@@ -12,6 +12,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * 绑定列表页的ListView
+ * 
+ * @author saleemshenlin<br>
+ *         扩写BaseAdapter，用于优化listview显示<br>
+ *         当用户上下滑动时不加载图片，停止时加载图片<br>
+ * 
+ */
 public class NewQueryListAdapter extends BaseAdapter {
 	private ArrayList<POI> poiList;
 	private LayoutInflater inflater;

@@ -18,6 +18,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 餐饮poi列表页
+ * 
+ * @author saleemshenlin <br>
+ *         显示餐饮poi的列表，包括poi的图片、名称、人均消费和简介<br>
+ *         通过"~/api/pois？type={type}"查询<br>
+ *         将结果通过NewQueryListAdapter绑定到ListView中<br>
+ *         点击列表的item能够跳转到poi详细页
+ * 
+ */
 public class RestListActivity extends Activity {
 	private ImageView mBackImageView;
 	private TextView mTitleTextView;
@@ -87,6 +97,14 @@ public class RestListActivity extends Activity {
 		});
 	}
 
+	/**
+	 * 后台线程查询poi列表
+	 * 
+	 * @author saleemshenlin <br>
+	 *         建立后台线程通过web api获取poi列表信息<br>
+	 *         将结果ArrayList<POI>通过NewQueryListAdapter绑定到ListView中
+	 * 
+	 */
 	class PoiQuery extends AsyncTask<String[], String, ArrayList<POI>> {
 
 		/**
@@ -142,7 +160,7 @@ public class RestListActivity extends Activity {
 						Toast.LENGTH_SHORT).show();
 			}
 		}
-		
+
 		@Override
 		protected void onPreExecute() {
 			// TODO Auto-generated method stub

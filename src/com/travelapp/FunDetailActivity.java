@@ -14,6 +14,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * 购物poi详细页
+ * 
+ * @author saleemshenlin <br>
+ *         通过"~/api/poi/{id}"进行查询<br>
+ *         将查询的结果进行显示，图片，名称，开放时间，地址，电话和简介。
+ * 
+ */
 public class FunDetailActivity extends Activity {
 	private ImageView mBackImageView;
 	private ImageView mItemImageView;
@@ -146,6 +154,14 @@ public class FunDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 后台线程查询poi详细信息
+	 * 
+	 * @author saleemshenlin<br>
+	 *         建立后台线程通过web api获取poi详细信息,通过POI类来更新页面
+	 * @param 传入poi的id信息
+	 * 
+	 */
 	class getPOI extends AsyncTask<String, String, POI> {
 
 		@Override

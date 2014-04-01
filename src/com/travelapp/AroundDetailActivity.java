@@ -18,13 +18,10 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 
-import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,15 +32,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
+/**
+ * 周边查询结果页
+ * 
+ * @author saleemshenlin <br>
+ *         用于进行周边的查询的列表显示,点击列表中item加载详细页面<br>
+ *         调用baidu地图api进行查询,分为景点、住宿、餐饮和购物<br>
+ *         景点的查询距离为3000m，住宿的查询距离为1000m，餐饮和购物的查询距离为500m，
+ * 
+ */
 public class AroundDetailActivity extends Activity {
 	private ImageView mBackImageView;
 	private TextView mTitleTextView;
@@ -54,8 +60,6 @@ public class AroundDetailActivity extends Activity {
 	private Bundle mBundle;
 	private Resources mResources;
 	private SmoothProgressBar mProgressBar;
-	// private Query mQuery;
-	private Cursor mItemCursor;
 
 	int mPoiId;
 
@@ -146,6 +150,13 @@ public class AroundDetailActivity extends Activity {
 		// setmItemCursor(mQuery.queryAroundByType("1"));
 	}
 
+	/**
+	 * 根据查询出的结果转换成ArrayList<QueryListItem>
+	 * 
+	 * @param jsonParser
+	 *            找个参数是通过百度地图api查询结果json数据
+	 * @return 返回json数据的ArrayList<QueryListItem>
+	 */
 	private ArrayList<QueryListItem> json2ArrayList(JsonParser jsonParser) {
 		ArrayList<QueryListItem> queryList = new ArrayList<QueryListItem>();
 		try {
@@ -209,6 +220,13 @@ public class AroundDetailActivity extends Activity {
 		return queryList;
 	}
 
+	/**
+	 * 根据每个item的距离对ArrayList<QueryListItem>进行由近到远进行排序
+	 * 
+	 * @param list
+	 *            根据json结果转换而成的ArrayList<QueryListItem>
+	 * @return 返回排好序的ArrayList<QueryListItem>
+	 */
 	private ArrayList<QueryListItem> compareArrayList(
 			ArrayList<QueryListItem> list) {
 		Comparator<QueryListItem> itemComparator = new Comparator<QueryListItem>() {
@@ -224,14 +242,13 @@ public class AroundDetailActivity extends Activity {
 		return list;
 	}
 
-	public Cursor getmItemCursor() {
-		return mItemCursor;
-	}
-
-	public void setmItemCursor(Cursor mItemCursor) {
-		this.mItemCursor = mItemCursor;
-	}
-
+	/**
+	 * 后台线程查询周边信息
+	 * 
+	 * @author saleemshenlin <br>
+	 *         通过后台线程的形式，根据api.map.baidu.com进行周边查询。
+	 * 
+	 */
 	private class QueryAround extends
 			AsyncTask<String, String, ArrayList<QueryListItem>> {
 
@@ -283,6 +300,19 @@ public class AroundDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 
+	 * @author saleemshenlin <br>
+	 *         查询结果Item类 <br>
+	 *         包括 <br>
+	 *         name 名称 <br>
+	 *         lat 纬度 <br>
+	 *         lng 经度 <br>
+	 *         address 地址 <br>
+	 *         distance 距离 <br>
+	 *         detail_url 详细连接 <br>
+	 * 
+	 */
 	class QueryListItem {
 		String name;
 		String lat;
@@ -296,6 +326,12 @@ public class AroundDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 
+	 * @author saleemshenlin <br>
+	 *         重写了ArrayAdapter类，绑定ArrayList<QueryListItem>数据
+	 * 
+	 */
 	class QueryListAdapter extends ArrayAdapter<QueryListItem> {
 		private int resourceId;
 

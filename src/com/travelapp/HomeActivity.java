@@ -7,6 +7,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * 
+ * @author saleemshenlin<br>
+ *         应用主页，显示导航按钮<br>
+ *         地图、景点、住宿、餐饮、购物、周边、线路、分析        
+ * 
+ */
 public class HomeActivity extends Activity {
 
 	private ImageView mMapImageView;

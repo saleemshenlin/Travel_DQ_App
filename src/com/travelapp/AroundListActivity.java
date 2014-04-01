@@ -10,6 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * 周边查询类别页
+ * 
+ * @author saleemshenlin<br>
+ *         用于列表显示周边查询的4个分类，点击后跳转到AroundDetailActivity进行查询<br>
+ *         并且通过百度定位api获取当前位置信息。
+ * 
+ */
 public class AroundListActivity extends Activity {
 	private ImageView mBackImageView;
 	private TextView mTitleTextView;
@@ -126,6 +134,9 @@ public class AroundListActivity extends Activity {
 		});
 	}
 
+	/**
+	 * 通过百度定位api获取当前位置信息
+	 */
 	private void getBDLocation() {
 		TravelApplication.mLocationClient.start();
 		if (TravelApplication.mLocationClient != null

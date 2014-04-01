@@ -13,6 +13,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * 宾馆poi详细页
+ * 
+ * @author saleemshenlin <br>
+ *         通过"~/api/poi/{id}"进行查询<br>
+ *         将查询的结果进行显示，图片，名称，房价，星级，地址，电话和简介。
+ * 
+ */
 public class HotelDetailActivity extends Activity {
 	private ImageView mBackImageView;
 	private ImageView mItemImageView;
@@ -161,6 +169,14 @@ public class HotelDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 后台线程查询poi详细信息
+	 * 
+	 * @author saleemshenlin<br>
+	 *         建立后台线程通过web api获取poi详细信息，更新页面
+	 * @param 传入poi的id信息
+	 * 
+	 */
 	class getPOI extends AsyncTask<String, String, POI> {
 
 		@Override
