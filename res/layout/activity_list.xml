@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/RelListView"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
@@ -45,12 +45,28 @@
                 android:src="@drawable/ic_map" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/linSmoothBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/linActionbar"
+            android:orientation="vertical" >
+
+            <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+                android:id="@+id/smoothBar"
+                style="@style/PocketProgressBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </LinearLayout>
+
         <ListView
             android:id="@+id/listPoi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/listPoi"
-            android:layout_below="@+id/linActionbar"
+            android:layout_below="@+id/linSmoothBar"
             android:layout_centerHorizontal="false"
             android:layout_centerInParent="false"
             android:layout_centerVertical="false" >

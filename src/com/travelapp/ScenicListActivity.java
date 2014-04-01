@@ -15,11 +15,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 public class ScenicListActivity extends Activity {
 	private ImageView mBackImageView;
 	private TextView mTitleTextView;
 	private ImageView mMapImageView;
+	private SmoothProgressBar mProgressBar;
 	private ArrayList<POI> mList = new ArrayList<POI>();
 	/**
 	 * 定义一个标签,在LogCat内表示EventListFragment
@@ -49,6 +51,7 @@ public class ScenicListActivity extends Activity {
 		mBackImageView = (ImageView) findViewById(R.id.imgListBack);
 		mMapImageView = (ImageView) findViewById(R.id.imgListMap);
 		mTitleTextView = (TextView) findViewById(R.id.txtListTitle);
+		mProgressBar = (SmoothProgressBar) findViewById(R.id.smoothBar);
 		mTitleTextView.setText("景点列表");
 		mBackImageView.setOnClickListener(new View.OnClickListener() {
 
@@ -108,6 +111,7 @@ public class ScenicListActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if (result != null) {
+				mProgressBar.setVisibility(View.GONE);
 				Toast.makeText(ScenicListActivity.this, "成功获取数据",
 						Toast.LENGTH_LONG).show();
 				NewQueryListAdapter mQueryListAdapter = new NewQueryListAdapter(
@@ -136,6 +140,14 @@ public class ScenicListActivity extends Activity {
 				Toast.makeText(ScenicListActivity.this, "获取数据失败",
 						Toast.LENGTH_SHORT).show();
 			}
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			Toast.makeText(ScenicListActivity.this, "正在获取数据....>>>",
+					Toast.LENGTH_SHORT).show();
 		}
 
 	}

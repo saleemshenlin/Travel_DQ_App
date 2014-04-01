@@ -33,5 +33,6 @@
     <string name="request_host">http://219.235.3.244:9876</string>
     <string name="route_url">/Update/route.json</string>
     <string name="textview">TextView</string>
+    <string name="loading">正在加载数据&#8230;>>>></string>
 
 </resources>

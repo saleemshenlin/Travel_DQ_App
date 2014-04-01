@@ -18,6 +18,8 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -51,7 +53,7 @@ public class AroundDetailActivity extends Activity {
 	private Intent mIntent;
 	private Bundle mBundle;
 	private Resources mResources;
-	private ProgressBar mProgressBar;
+	private SmoothProgressBar mProgressBar;
 	// private Query mQuery;
 	private Cursor mItemCursor;
 
@@ -81,8 +83,7 @@ public class AroundDetailActivity extends Activity {
 		mMapImageView = (ImageView) findViewById(R.id.imgListMap);
 		mTitleTextView = (TextView) findViewById(R.id.txtListTitle);
 		mQueryListView = (ListView) findViewById(R.id.listPoi);
-		mProgressBar = (ProgressBar) findViewById(R.id.pbLoad);
-		mProgressBar.setVisibility(View.VISIBLE);
+		mProgressBar = (SmoothProgressBar) findViewById(R.id.smoothBar);
 		Drawable mDrawable = mResources.getDrawable(R.drawable.bg_noimg);
 		mMapImageView.setImageDrawable(mDrawable);
 		mIntent = getIntent();

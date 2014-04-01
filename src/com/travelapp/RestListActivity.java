@@ -2,6 +2,8 @@ package com.travelapp;
 
 import java.util.ArrayList;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,6 +22,7 @@ public class RestListActivity extends Activity {
 	private ImageView mBackImageView;
 	private TextView mTitleTextView;
 	private ImageView mMapImageView;
+	private SmoothProgressBar mProgressBar;
 	/**
 	 * 定义一个标签,在LogCat内表示EventListFragment
 	 */
@@ -49,6 +52,7 @@ public class RestListActivity extends Activity {
 		mBackImageView = (ImageView) findViewById(R.id.imgListBack);
 		mMapImageView = (ImageView) findViewById(R.id.imgListMap);
 		mTitleTextView = (TextView) findViewById(R.id.txtListTitle);
+		mProgressBar = (SmoothProgressBar) findViewById(R.id.smoothBar);
 		mTitleTextView.setText("餐饮列表");
 		mBackImageView.setOnClickListener(new View.OnClickListener() {
 
@@ -108,6 +112,7 @@ public class RestListActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if (result != null) {
+				mProgressBar.setVisibility(View.GONE);
 				Toast.makeText(RestListActivity.this, "成功获取数据",
 						Toast.LENGTH_LONG).show();
 				NewQueryListAdapter mQueryListAdapter = new NewQueryListAdapter(
@@ -136,6 +141,14 @@ public class RestListActivity extends Activity {
 				Toast.makeText(RestListActivity.this, "获取数据失败",
 						Toast.LENGTH_SHORT).show();
 			}
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			Toast.makeText(RestListActivity.this, "正在获取数据....>>>",
+					Toast.LENGTH_SHORT).show();
 		}
 
 	}
