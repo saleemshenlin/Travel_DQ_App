@@ -101,7 +101,7 @@ public class ScenicListActivity extends Activity {
 	 * 
 	 * @author saleemshenlin <br>
 	 *         建立后台线程通过web api获取poi列表信息<br>
-	 *         将结果ArrayList<POI>通过NewQueryListAdapter绑定到ListView中
+	 *         将结果ArrayList通过NewQueryListAdapter绑定到ListView中
 	 * 
 	 */
 	class PoiQuery extends AsyncTask<String[], String, ArrayList<POI>> {

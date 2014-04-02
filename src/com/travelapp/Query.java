@@ -352,7 +352,7 @@ public class Query {
 	 * @param type
 	 *            传入要查询的类型<br>
 	 *            0:所有;1:景点;2:住宿;3:餐饮;4:购物;
-	 * @return ArrayList<POI>poi列表
+	 * @return ArrayList的poi列表
 	 */
 	public ArrayList<POI> getPoisFromWebAPI(int type) {
 		ArrayList<POI> mQueryList = new ArrayList<POI>();
@@ -469,11 +469,11 @@ public class Query {
 	}
 
 	/**
-	 * 将json格式的查询结果转换成ArrayList<POI>形式
+	 * 将json格式的查询结果转换成ArrayList形式
 	 * 
 	 * @param jsonParser
 	 *            json格式的查询结果
-	 * @return ArrayList<POI>的poi列表
+	 * @return ArrayList的poi列表
 	 */
 	private ArrayList<POI> json2ArrayList(JsonParser jsonParser) {
 		ArrayList<POI> queryList = new ArrayList<POI>();

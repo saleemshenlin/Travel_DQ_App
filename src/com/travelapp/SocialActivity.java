@@ -40,6 +40,12 @@ import com.tencent.mm.sdk.openapi.SendMessageToWX;
 import com.tencent.mm.sdk.openapi.WXImageObject;
 import com.tencent.mm.sdk.openapi.WXMediaMessage;
 
+/**
+ * 微博微信分享页
+ * 
+ * @author saleemshenlin<br>
+ *         首先先拍摄照片，调整照片方向，点击分享
+ */
 public class SocialActivity extends Activity implements IWeiboHandler.Response {
 	private ImageView mBackImageView;
 	private TextView mTitleTextView;
@@ -74,6 +80,7 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -145,9 +152,9 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 	/**
 	 * 接收微客户端博请求的数据。 当微博客户端唤起当前应用并进行分享时，该方法被调用。
 	 * 
-	 * @param baseRequest
+	 * @param baseResp
 	 *            微博请求数据对象
-	 * @see {@link IWeiboShareAPI#handleWeiboRequest}
+	 * 
 	 */
 	@Override
 	public void onResponse(BaseResponse baseResp) {
@@ -179,6 +186,9 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 		return false;
 	}
 
+	/**
+	 * 初始化摄像头，进行拍照并保存照片，之后调用onActivityResult方法
+	 */
 	private void initCamera() {
 		// TODO Auto-generated method stub
 		isCamera = true;
@@ -270,6 +280,15 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 				getApplicationContext().getString(R.string.wb_app_id));
 	}
 
+	/**
+	 * 对照片进行方向的旋转
+	 * 
+	 * @param bgimage
+	 *            传入照片
+	 * @param direction
+	 *            旋转角度
+	 * @return 返回旋转后的照片
+	 */
 	public static Bitmap rotateImage(Bitmap bgimage, int direction) {
 		// 获取这个图片的宽和高
 		float width = bgimage.getWidth();
@@ -293,6 +312,9 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 		return bitmap;
 	}
 
+	/**
+	 * 调用weixin接口发送一个文字加图片的信息至微信朋友圈
+	 */
 	private void sendWXMeg() {
 		hasWX = true;
 		// 初始化一个WXImageObject对象
@@ -334,6 +356,15 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 		mCameraImageView.setDrawingCacheEnabled(false);
 	}
 
+	/**
+	 * 在微信上传图片是需要保存一张图片的缩略图
+	 * 
+	 * @param bitmap
+	 *            传入原图
+	 * @param paramBoolean
+	 *            是否将原图资源从内存中释放
+	 * @return 返回byte[]格式的缩略图
+	 */
 	private static byte[] getBitmapBytes(Bitmap bitmap, boolean paramBoolean) {
 		Bitmap localBitmap = Bitmap.createBitmap(80, 80, Bitmap.Config.RGB_565);
 		Canvas localCanvas = new Canvas(localBitmap);
@@ -368,6 +399,9 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 		}
 	}
 
+	/**
+	 * 调用weibo接口发送一个文字加图片的信息至新浪微博
+	 */
 	private void sendWBMeg() {
 		hasWB = true;
 		getTokenBySSO();
@@ -391,6 +425,9 @@ public class SocialActivity extends Activity implements IWeiboHandler.Response {
 
 	}
 
+	/**
+	 * 获取新浪微博的使用许可
+	 */
 	private void getTokenBySSO() {
 		mSsoHandler = new SsoHandler(SocialActivity.this,
 				TravelApplication.mWeiboAuth);

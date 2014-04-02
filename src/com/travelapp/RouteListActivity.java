@@ -8,6 +8,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * 路径查询列表页
+ * 
+ * @author saleemshenlin<br>
+ *         显示三条路径的简介图片，点击后能够查询路径详细
+ */
 public class RouteListActivity extends Activity {
 	private ImageView mBackImageView;
 	private TextView mTitleTextView;

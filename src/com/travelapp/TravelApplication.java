@@ -20,6 +20,13 @@ import com.sina.weibo.sdk.auth.WeiboAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+/**
+ * 应用的Application
+ * 
+ * @author saleemshenlin<br>
+ *         用于初始化第三方SDK，Baidu定位，微信，微博，ArcGIS Runtime
+ * 
+ */
 public class TravelApplication extends Application {
 	/**
 	 * 定义一个标签,在LogCat内表示LBSApplication
@@ -58,14 +65,6 @@ public class TravelApplication extends Application {
 		return CONTEXT;
 	}
 
-	/**
-	 * 创建LbsApplication<br>
-	 * 1)获取上下文,赋值个CONTEXT<br>
-	 * 2)获取屏幕分辨率<br>
-	 * 3)初始化SuperMap环境<br>
-	 * 4)初始化mPoint2d和LOCATIONACCUCRACY<br>
-	 * 
-	 */
 	@Override
 	public void onCreate() {
 		// TODO Auto-generated method stub
@@ -101,11 +100,6 @@ public class TravelApplication extends Application {
 		return (int) (dp * scale + 0.5f);
 	}
 
-	public static int Px2Dp(Context context, int px) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) ((px - 0.5f) / scale);
-	}
-
 	/**
 	 * 用于获取屏幕分别率
 	 */
@@ -117,30 +111,54 @@ public class TravelApplication extends Application {
 		setScreenDPI(dm.densityDpi);
 	}
 
+	/**
+	 * 用于获取屏幕宽度
+	 */
 	public static int getScreenWidth() {
 		return SCREENWIDTH;
 	}
 
+	/**
+	 * 用于设置屏幕宽度
+	 */
 	public static void setScreenWidth(float xdpi) {
 		TravelApplication.SCREENWIDTH = (int) xdpi;
 	}
 
+	/**
+	 * 用于获取屏幕高度
+	 */
 	public static int getScreenHeight() {
 		return SCREENHEIGHT;
 	}
 
+	/**
+	 * 用于设置屏幕高度
+	 */
 	public static void setScreenHeight(float ydpi) {
 		TravelApplication.SCREENHEIGHT = (int) ydpi;
 	}
 
+	/**
+	 * 用于获取屏幕DPI
+	 */
 	public static double getScreenDPI() {
 		return SCREENDPI;
 	}
 
+	/**
+	 * 用于设置屏幕DPI
+	 */
 	public static void setScreenDPI(double screenDPI) {
 		TravelApplication.SCREENDPI = screenDPI;
 	}
 
+	/**
+	 * 用于处理应用退出
+	 * 
+	 * @param context
+	 *            当前上下文
+	 */
 	public static void buildExitDialog(Context context) {
 		AlertDialog.Builder mBuilder = new AlertDialog.Builder(context);
 		mBuilder.setMessage("确认退出吗？");
@@ -165,6 +183,9 @@ public class TravelApplication extends Application {
 		mBuilder.create().show();
 	}
 
+	/**
+	 * 初始化百度定位sdk
+	 */
 	private void initBDLocation() {
 		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
 		mLocationClient.registerLocationListener(mBDListener);
@@ -181,6 +202,12 @@ public class TravelApplication extends Application {
 		mLocationClient.setLocOption(option);
 	}
 
+	/**
+	 * 百度定位sdk的位置监听类
+	 * 
+	 * @author saleemshenlin<br>
+	 *         监听当前获取的位置信息
+	 */
 	public class MyLocationListener implements BDLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
@@ -242,6 +269,9 @@ public class TravelApplication extends Application {
 		}
 	}
 
+	/**
+	 * 初始化微信sdk
+	 */
 	private void initWX() {
 		mIwxapi = WXAPIFactory.createWXAPI(getApplicationContext(),
 				getApplicationContext().getString(R.string.wx_app_id), false);
@@ -254,12 +284,18 @@ public class TravelApplication extends Application {
 		}
 	}
 
+	/**
+	 * 初始化微博sdk
+	 */
 	private void initWB() {
 		mWeiboAuth = new WeiboAuth(getApplicationContext(),
 				getApplicationContext().getString(R.string.wb_app_id),
 				getApplicationContext().getString(R.string.redirect_url), null);
 	}
 
+	/**
+	 * 初始化ArcGIS Runtime sdk
+	 */
 	private void initEsriSDK() {
 		String myClientID = this.getString(R.string.esri_client_id);
 		ArcGISRuntime.setClientId(myClientID);

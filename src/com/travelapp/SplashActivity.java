@@ -11,6 +11,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 
+/**
+ * 应用首页
+ * 
+ * @author saleemshenlin<br>
+ *         显示引用首页，判断应用是否为首次加载，如果是首次加载，加载预先数据
+ */
 public class SplashActivity extends Activity {
 	/**
 	 * 定义一个常量,用来纪录时候是否是首次加载,
@@ -33,7 +39,9 @@ public class SplashActivity extends Activity {
 	 */
 	private static final String SHAREDPREFERENCES_NAME = "first_pref";
 	/**
-	 * 定义一个Handler,用来表示跳转到不同界面
+	 * 定义一个Handler,根据是否为首次加载来判断下步调用方法<br>
+	 * addData 加载数据<br>
+	 * goHome 进入Home页<br>
 	 */
 	private Handler mHandler = new Handler() {
 
@@ -59,6 +67,9 @@ public class SplashActivity extends Activity {
 		init();
 	}
 
+	/**
+	 * 初始化判断是否为首次加载，在SharedPreferences中保存结果
+	 */
 	private void init() {
 		SharedPreferences preferences = getSharedPreferences(
 				SHAREDPREFERENCES_NAME, MODE_PRIVATE);
@@ -82,7 +93,7 @@ public class SplashActivity extends Activity {
 				R.anim.anim_in_right2left, R.anim.anim_out_left2right);
 	}
 
-	/*
+	/**
 	 * 用于首次加载数据
 	 */
 	protected void addData() {

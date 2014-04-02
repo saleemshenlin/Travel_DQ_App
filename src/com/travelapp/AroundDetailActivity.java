@@ -151,11 +151,11 @@ public class AroundDetailActivity extends Activity {
 	}
 
 	/**
-	 * 根据查询出的结果转换成ArrayList<QueryListItem>
+	 * 根据查询出的结果转换成ArrayList
 	 * 
 	 * @param jsonParser
 	 *            找个参数是通过百度地图api查询结果json数据
-	 * @return 返回json数据的ArrayList<QueryListItem>
+	 * @return 返回json数据的ArrayList
 	 */
 	private ArrayList<QueryListItem> json2ArrayList(JsonParser jsonParser) {
 		ArrayList<QueryListItem> queryList = new ArrayList<QueryListItem>();
@@ -221,11 +221,11 @@ public class AroundDetailActivity extends Activity {
 	}
 
 	/**
-	 * 根据每个item的距离对ArrayList<QueryListItem>进行由近到远进行排序
+	 * 根据每个item的距离对ArrayList进行由近到远进行排序
 	 * 
 	 * @param list
-	 *            根据json结果转换而成的ArrayList<QueryListItem>
-	 * @return 返回排好序的ArrayList<QueryListItem>
+	 *            根据json结果转换而成的ArrayList
+	 * @return 返回排好序的ArrayList
 	 */
 	private ArrayList<QueryListItem> compareArrayList(
 			ArrayList<QueryListItem> list) {
@@ -329,7 +329,7 @@ public class AroundDetailActivity extends Activity {
 	/**
 	 * 
 	 * @author saleemshenlin <br>
-	 *         重写了ArrayAdapter类，绑定ArrayList<QueryListItem>数据
+	 *         重写了ArrayAdapter类，绑定ArrayList数据
 	 * 
 	 */
 	class QueryListAdapter extends ArrayAdapter<QueryListItem> {

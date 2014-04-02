@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -32,7 +31,6 @@ import com.esri.android.map.CalloutStyle;
 import com.esri.android.map.GraphicsLayer;
 import com.esri.android.map.MapView;
 import com.esri.android.map.ags.ArcGISLocalTiledLayer;
-import com.esri.android.map.ags.ArcGISTiledMapServiceLayer;
 import com.esri.android.map.event.OnSingleTapListener;
 import com.esri.core.geometry.Geometry;
 import com.esri.core.geometry.Point;
@@ -41,34 +39,33 @@ import com.esri.core.symbol.PictureMarkerSymbol;
 
 /**
  * 路径详细页
- * @author saleemshenlin
- * 用于显示路径的详细信息
- * 路径地图
- * 路径名称
- * 景点，点击景点
+ * 
+ * @author saleemshenlin <br>
+ *         用于显示路径的详细信息<br>
+ *         路径地图<br>
+ *         路径名称<br>
+ *         景点，点击景点，进入景点详细<br>
  * 
  */
 public class RouteDetailActivity extends Activity {
-	ImageView mBackImageView;
-	TextView mTitleTextView;
-	TextView mRouteTitle;
-	Intent mIntent;
-	Bundle mBundle;
-	Cursor mItemCursor;
-	ListView mListView;
-	Resources mResources;
-	MapView mMap;
-	Geometry mGeometry;
-	GraphicsLayer mPoiGraphicsLayer;
-	GraphicsLayer mRouteGraphicsLayer;
-	ArcGISLocalTiledLayer mLocalTiledLayer;
-	ArcGISTiledMapServiceLayer mTiledMapServiceLayer;
-	List<Route> mList;
-	Query mQuery;
-	String mPOIs;
-	String mRouteTitleText;
-	int mRouteID;
-	static String TAG = "RouteDetailActivity";
+	private ImageView mBackImageView;
+	private TextView mTitleTextView;
+	private TextView mRouteTitle;
+	private Intent mIntent;
+	private Bundle mBundle;
+	private ListView mListView;
+	private Resources mResources;
+	private MapView mMap;
+	private Geometry mGeometry;
+	private GraphicsLayer mPoiGraphicsLayer;
+	private GraphicsLayer mRouteGraphicsLayer;
+	private ArcGISLocalTiledLayer mLocalTiledLayer;
+	private List<Route> mList;
+	private Query mQuery;
+	private String mPOIs;
+	private String mRouteTitleText;
+	private int mRouteID;
+	private static String TAG = "RouteDetailActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +119,13 @@ public class RouteDetailActivity extends Activity {
 		});
 	}
 
+	/**
+	 * 根据路径的id获取路径的信息
+	 * 
+	 * @param routeid
+	 *            传入路径id
+	 * @return 返回路径中poi的id字符串集合，用";"分隔
+	 */
 	private String getRoute(String routeid) {
 		String mRoutePOi = null;
 		try {
@@ -137,6 +141,12 @@ public class RouteDetailActivity extends Activity {
 		return mRoutePOi;
 	}
 
+	/**
+	 * 将poi的id字符串集合，分割并查询详细信息，保存到List中
+	 * 
+	 * @param pois
+	 *            传入 poi的id字符串集合
+	 */
 	private void getRoutePoi(String pois) {
 		String[] mPois = pois.split(";");
 		Map<String, Object> mMap = new HashMap<String, Object>();
@@ -173,6 +183,9 @@ public class RouteDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 将poi的list绑到listview中
+	 */
 	private void initData() {
 		RouteListAdapter mAdapter = new RouteListAdapter(this,
 				R.layout.route_row, mList);
@@ -198,12 +211,26 @@ public class RouteDetailActivity extends Activity {
 		});
 	}
 
+	/**
+	 * poi的list中的item"Route"类
+	 * 
+	 * @author saleemshenlin<br>
+	 *         NAME：poi名称<br>
+	 *         IMG：poi图标<br>
+	 *         ABSTRACT：poi简介<br>
+	 */
 	public class Route {
 		String NAME;
 		String IMG;
 		String ABSTRACT;
 	}
 
+	/**
+	 * 绑定List的Adapter类
+	 * 
+	 * @author saleemshenlin<br>
+	 *         用于绑定List到ListView中
+	 */
 	class RouteListAdapter extends ArrayAdapter<Route> {
 		private int resourceId;
 		private List<Route> list;
@@ -260,6 +287,13 @@ public class RouteDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 后台线程加载地图类
+	 * 
+	 * @author saleemshenlin<br>
+	 *         加载地图，路径，poi等信息<br>
+	 * 
+	 */
 	class AddMap extends AsyncTask<String, String, String> {
 
 		@Override
@@ -335,6 +369,12 @@ public class RouteDetailActivity extends Activity {
 		}
 	}
 
+	/**
+	 * 后台线程获取路径类
+	 * 
+	 * @author saleemshenlin<br>
+	 *         包括获取路径(getRoute)和获取路径中poi(getRoutePoi)
+	 */
 	class GetRoute extends AsyncTask<String, String, String> {
 
 		@Override

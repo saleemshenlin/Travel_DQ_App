@@ -196,8 +196,7 @@ public class ScenicDetailActivity extends Activity {
 	 * 后台线程查询poi详细信息
 	 * 
 	 * @author saleemshenlin<br>
-	 *         建立后台线程通过web api获取poi详细信息，更新页面
-	 * @param 传入poi的id信息
+	 *         建立后台线程通过web api获取poi详细信息，更新页面，需要传入poi的id
 	 * 
 	 */
 	class getPOI extends AsyncTask<String, String, POI> {
